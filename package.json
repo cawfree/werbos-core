@@ -1,0 +1,33 @@
+{
+  "name": "@werbos/core",
+  "version": "0.0.1",
+  "description": "🧠 Deep Learning. Rapid Prototyping.",
+  "main": "dist",
+  "repository": "https://github.com/cawfree/werbos-core",
+  "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "babel src --out-dir dist && uglifyjs dist/*.js -o dist/*.js",
+    "prettify": "yarn prettier --write \"**/*.js\"",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@tensorflow/tfjs": "^1.5.2",
+    "@tensorflow/tfjs-node": "^1.5.1",
+    "husky": "^4.2.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "uglify-js": "^3.7.6"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "rippleware": "^0.0.5",
+    "stats-lite": "^2.2.0"
+  }
+}
