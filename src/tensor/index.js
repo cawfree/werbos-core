@@ -11,14 +11,12 @@ const normalizeInputs = (inputs) => {
   );
 };
 
-//tf.tensor1d(inputs.map(input => normalizeInputs(input)))
-
 export const normalize = () => handle => [
   handle('[Number]', input => tf.tensor1d(normalizeInputs(input))),
   handle(
     '[[Number]]',
     (inputs) => {
-      const f = inputs.map(t => tf.tensor1d(t));
+      const f = inputs.map(t => tf.tensor1d(normalizeInputs(t)));
       const data = tf.concat(f);
       const { shape } = data;
       return data
