@@ -1,17 +1,16 @@
-import axios from 'axios';
-import compose from 'rippleware';
+import axios from "axios";
+import compose from "rippleware";
 
-export { normalize, scalar } from './tensor';
+export { Types, normalize, scalar } from "./tensor";
+export { dense } from './network';
+export { Tensor, Sequential } from './shape';
 
-export const https = () => handle => handle(
-  'String',
-  (url, last) => axios(
-    {
-      method: 'get',
-      url,
-    },
-  )
-  .then(({ data }) => data),
-);
-  
+export const https = () => handle =>
+  handle("String", (url, last) =>
+    axios({
+      method: "get",
+      url
+    }).then(({ data }) => data)
+  );
+
 export default compose;
