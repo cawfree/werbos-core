@@ -3,44 +3,35 @@ import "@tensorflow/tfjs-node";
 
 import * as tf from '@tensorflow/tfjs';
 
-import werbos, { https, normalize, scalar, Sequential } from "../src";
+import werbos, { https, normalize, scalar, sequential } from "../src";
 
 it("should be capable of calculating regression using the boston dataset", () => {
-  
-  const tensor = tf.tensor1d([0, 1]);
+
   const app = werbos()
-    .use(Sequential, () => console.log('ici'));
+    .use(https())
+    .use([
+      [
+        /$.*.crim/,
+        /$.*.zn/,
+        /$.*.indus/,
+        /$.*.chas/,
+        /$.*.nox/,
+        /$.*.rm/,
+        /$.*.age/,
+        /$.*.dis/,
+        /$.*.rad/,
+        /$.*.tax/,
+        /$.*.ptratio/,
+        /$.*.b/,
+        /$.*.lstat/
+      ],
+      [/$.*.medv/]
+    ])
+    .use(normalize(), scalar())
+    .use(sequential());
 
-  app(tensor, tensor);
+  const x = app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
 
-  //const app = werbos()
-  //  .use(https())
-  //  .use([
-  //    [
-  //      /$.*.crim/,
-  //      /$.*.zn/,
-  //      /$.*.indus/,
-  //      /$.*.chas/,
-  //      /$.*.nox/,
-  //      /$.*.rm/,
-  //      /$.*.age/,
-  //      /$.*.dis/,
-  //      /$.*.rad/,
-  //      /$.*.tax/,
-  //      /$.*.ptratio/,
-  //      /$.*.b/,
-  //      /$.*.lstat/
-  //    ],
-  //    [/$.*.medv/]
-  //  ])
-  //  .use(normalize(), scalar());
-
-  //const [n, s] = app(
-  //  "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
-  //);
-
-  //n.print();
-  //s.print();
-
-  expect(true).toBeTruthy();
+  expect(true)
+    .toBeTruthy();
 });
