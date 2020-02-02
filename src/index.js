@@ -1,7 +1,7 @@
 import axios from 'axios';
 import compose from 'rippleware';
 
-export { normalize } from './tensor';
+export { normalize, scalar } from './tensor';
 
 export const https = () => handle => handle(
   'String',

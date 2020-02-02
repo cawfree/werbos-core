@@ -11,19 +11,23 @@ const normalizeInputs = (inputs) => {
   );
 };
 
+const reshape2d = ([...tensors]) => {
+  const data = tf.concat(tensors);
+  const { shape } = data;
+  return data
+    .reshape([tensors.length, shape[0] / tensors.length])
+    .transpose();
+};
+
 export const normalize = () => handle => [
   handle('[Number]', input => tf.tensor1d(normalizeInputs(input))),
   handle(
     '[[Number]]',
-    (inputs) => {
-      const f = inputs.map(t => tf.tensor1d(normalizeInputs(t)));
-      const data = tf.concat(f);
-      const { shape } = data;
-      return data
-        .reshape(
-          [inputs.length, shape[0] / inputs.length],
-        )
-        .transpose();
-    },
+    inputs => reshape2d(inputs.map(t => tf.tensor1d(normalizeInputs(t)))),
   ),
+] && undefined;
+
+export const scalar = () => handle => [
+  handle('[Number]', input => tf.tensor1d(new Float32Array(input))),
+  handle('[[Number]]', inputs => reshape2d(inputs.map(i => tf.tensor1d(new Float32Array(i))))),
 ] && undefined;

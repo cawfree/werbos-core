@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import '@tensorflow/tfjs-node';
 
-import werbos, { https, normalize } from '../src';
+import werbos, { https, normalize, scalar } from '../src';
 
 it('should be capable of calculating regression using the boston dataset', () => {
   
@@ -27,11 +27,12 @@ it('should be capable of calculating regression using the boston dataset', () =>
         [/$.*.medv/],
       ],
     )
-    .use(normalize(), normalize());
+    .use(normalize(), scalar());
   
-  const result = app('https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json')
+  const [n, s] = app('https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json')
 
-  console.log(result)
+  n.print();
+  s.print();
 
   expect(true)
     .toBeTruthy();
