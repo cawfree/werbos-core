@@ -1,8 +1,8 @@
 import axios from "axios";
-import compose from "rippleware";
+import compose from 'rippleware';
 
 export { Types, normalize, scalar } from "./tensor";
-export { dense, sequential } from './network';
+export { dense, sequential } from "./network";
 
 export const https = () => handle =>
   handle("String", (url, last) =>

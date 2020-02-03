@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "rippleware": "^0.0.6",
+    "rippleware": "^0.0.9",
     "stats-lite": "^2.2.0"
   }
 }
