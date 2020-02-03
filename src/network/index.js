@@ -1,6 +1,2 @@
-import { Sequential } from "../shape";
-
-export const sequential = () => burden => burden(
-  Sequential,
-  (input) => console.log('got here'),
-);
+export { default as dense } from './dense';
+export { default as sequential } from './sequential';

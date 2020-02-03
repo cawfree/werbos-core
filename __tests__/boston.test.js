@@ -3,7 +3,7 @@ import "@tensorflow/tfjs-node";
 
 import * as tf from "@tensorflow/tfjs";
 
-import werbos, { https, normalize, scalar, sequential } from "../src";
+import werbos, { https, normalize, scalar, sequential, dense } from "../src";
   
 import { justOnce } from 'rippleware';
 
@@ -29,7 +29,7 @@ it("should be capable of calculating regression using the boston dataset", () =>
       [/$.*.medv/]
     ])
     .use(normalize(), scalar())
-    .use(sequential());
+    .use(sequential(dense({ units: 16 }), dense({ units: 16 }), dense()));
 
   const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
