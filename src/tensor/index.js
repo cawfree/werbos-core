@@ -77,3 +77,12 @@ export const scalar = () => handle =>
       ),
     ),
   ] && undefined;
+
+export const oneHot = () => handle => [
+  handle(
+    "[[String]]", () => console.log('ici str'),
+  ),
+  handle(
+    "[[Number]]", () => console.log('ici number'),
+  ),
+] && undefined;
