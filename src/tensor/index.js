@@ -1,6 +1,8 @@
 import * as tf from "@tensorflow/tfjs";
 import { stdev, mean } from "stats-lite";
 
+import { xsr } from "../wbf";
+
 // https://en.wikipedia.org/wiki/Feature_scaling#Standardization_(Z-score_Normalization)
 const normalizeInputs = inputs => {
   const m = mean(inputs);

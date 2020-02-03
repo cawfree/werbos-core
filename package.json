@@ -28,6 +28,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "rippleware": "^0.0.9",
-    "stats-lite": "^2.2.0"
+    "stats-lite": "^2.2.0",
+    "type-check": "^0.3.2"
   }
 }
