@@ -4,10 +4,15 @@ import { typeCheck } from "type-check";
 
 import {
   tensorTypeDef,
+
   TYPEDEF_NORMALIZED_NUMERIC_1D,
   TYPEDEF_NORMALIZED_NUMERIC_2D,
+
   TYPEDEF_SCALAR_NUMERIC_1D,
   TYPEDEF_SCALAR_NUMERIC_2D,
+
+  TYPEDEF_ONE_HOT_STRING_2D,
+  TYPEDEF_ONE_HOT_NUMERIC_2D,
 } from "../wbf";
 
 const ortho = inputs => ({

@@ -8,6 +8,9 @@ export const TYPEDEF_SCALAR_NUMERIC_2D = '0cu01ul1k2OspeYLmqok7';
 export const TYPEDEF_NORMALIZED_NUMERIC_1D = '7tbIfwarzusYnQ_rYntrF';
 export const TYPEDEF_NORMALIZED_NUMERIC_2D = '2x8OpCl6_W5kH4RBYreYE';
 
+export const TYPEDEF_ONE_HOT_STRING_2D = 'Za28j6s_78OReC4Apf6C_';
+export const TYPEDEF_ONE_HOT_NUMERIC_2D = 'aNSO-fJeiHg3Z8xpkoXa8';
+
 export const TYPEDEF_MODEL = 'hT3OZP7a3FxlxKgFcoBvt';
 
 const typeDefs = Object
@@ -34,6 +37,16 @@ const typeDefs = Object
         },
       },
       [TYPEDEF_MODEL]: {
+        build(options) {
+          return options;
+        },
+      },
+      [TYPEDEF_ONE_HOT_STRING_2D]: {
+        build(options) {
+          return options;
+        },
+      },
+      [TYPEDEF_ONE_HOT_NUMERIC_2D]: {
         build(options) {
           return options;
         },
