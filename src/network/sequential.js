@@ -1,6 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
 
 import { Sequential } from "../shape";
+import { modelTypeDef } from "../wbf";
 import { getInputActivation, getTargetActivation } from "../activation";
 
 const getInputShape = shape => shape.slice(1);
@@ -41,7 +42,7 @@ export default (...layers) => burden => burden(
           tf.sequential(),
         ),
       );
-      return model;
+      return [modelTypeDef(model), xs, ys];
     }
     throw new Error("A sequential network requires a minimum of two layers; an input layer, and an output layer.");
   },
