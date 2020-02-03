@@ -10,15 +10,16 @@ import {
   TYPEDEF_SCALAR_NUMERIC_2D,
 } from "../wbf";
 
+const ortho = inputs => ({
+  m: mean(inputs),
+  s: stdev(inputs),
+});
+
 // https://en.wikipedia.org/wiki/Feature_scaling#Standardization_(Z-score_Normalization)
-const normalizeInputs = inputs => {
-  const m = mean(inputs);
-  const s = 1 / stdev(inputs);
-  return {
-    m,
-    s,
-    data: new Float32Array(inputs.map(e => (e - m) * s)),
-  };
+const shouldOrtho = (data, normals) => {
+  const { m, s } = normals;
+  const i = 1 / s;
+  return new Float32Array(data.map(e => (e - m) * i));
 };
 
 const reshape2d = ([...tensors]) => {
@@ -31,25 +32,29 @@ export const normalize = () => handle =>
   [
     handle(
       "[Number]",
-      (input) => {
-        const { m, s, data } = normalizeInputs(input);
+      (input, { useState }) => {
+        const [normals] = useState(
+          () => ortho(input),
+        );
         return tensorTypeDef(
           TYPEDEF_NORMALIZED_NUMERIC_1D,
-          tf.tensor1d(data),
+          tf.tensor1d(shouldOrtho(input, normals)),
           {
-            m,
-            s,
+            ...normals,
           },
         );
       },
     ),
     handle(
       '[[Number]]',
-      (inputs) => {
-        const normals = inputs.map(t => normalizeInputs(t));
+      (inputs, { useState }) => {
+        const [normals] = useState(
+          () => inputs.map(t => ortho(t)),
+        );
+        const data = inputs.map((input, i) => shouldOrtho(input, normals[i]));
         return tensorTypeDef(
           TYPEDEF_NORMALIZED_NUMERIC_2D,
-          reshape2d(normals.map(({ data }) => data)),
+          reshape2d(data),
           {
             m: normals.map(({ m }) => m),
             s: normals.map(({ s }) => s),
