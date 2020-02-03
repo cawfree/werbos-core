@@ -12,6 +12,7 @@ import {
 
 // https://en.wikipedia.org/wiki/Feature_scaling#Standardization_(Z-score_Normalization)
 const normalizeInputs = inputs => {
+  // mean and std is what we need
   const m = mean(inputs);
   const s = 1 / stdev(inputs);
   return new Float32Array(inputs.map(e => (e - m) * s));
