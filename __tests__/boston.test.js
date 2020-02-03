@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
@@ -33,7 +36,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
     .use(sequential(dense({ units: 64 }), dense({ units: 64 }), dense()))
     .use(train({ epochs: 100 }));
 
-  const x = app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
+  // Initialize the network using the boston dataset.
+  app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
 
   const data = [
     {
@@ -55,9 +59,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
     {"crim":0.00632,"zn":18,"indus":2.31,"chas":0,"nox":0.538,"rm":6.575,"age":65.2,"dis":4.09,"rad":1,"tax":296,"ptratio":15.3,"b":396.9,"lstat":4.98,"medv":24},
   ];
 
-  const y = app(data);
-
-  y.print();
+  app(data)
+    .print();
 
   expect(true).toBeTruthy();
 });
