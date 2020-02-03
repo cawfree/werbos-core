@@ -1,5 +1,7 @@
 import { typeCheck } from 'type-check';
 
+import { Tensor } from "../shape";
+
 export const TYPEDEF_SCALAR_NUMERIC_1D = 'yrMU4_1DHwoG2e2F5ZwCX';
 export const TYPEDEF_SCALAR_NUMERIC_2D = '0cu01ul1k2OspeYLmqok7';
 
@@ -10,16 +12,24 @@ const typeDefs = Object
   .freeze(
     {
       [TYPEDEF_SCALAR_NUMERIC_1D]: {
-        
+        build(options) {
+          return options;
+        },
       },
       [TYPEDEF_SCALAR_NUMERIC_2D]: {
-        
+        build(options) {
+          return options;
+        },
       },
       [TYPEDEF_NORMALIZED_NUMERIC_1D]: {
-        
+        build(options) {
+          return options;
+        },
       },
       [TYPEDEF_NORMALIZED_NUMERIC_2D]: {
-        
+        build(options) {
+          return options;
+        },
       },
     },
   );
@@ -39,4 +49,20 @@ export const typeDef = (type, fromOptions = {}) => {
     throw new Error(`Encountered unsupported typeDef, ${typedef}.`);
   }
   throw new Error(`Expected [Object obj] fromOptions, but encountered ${fromOptions}.`);
+};
+
+export const tensorTypeDef = (type, $tensor, options = {}) => {
+  if (typeCheck(Tensor, $tensor)) {
+    if (typeCheck('Object', options)) {
+      return typeDef(
+        type,
+        {
+          ...options,
+          $tensor,
+        },
+      );
+    }
+    throw new Error(`Expected [Object obj] options, but encountered ${options}.`);
+  }
+  throw new Error("A tensorTypeDef must declare a supporting tensor.");
 };
