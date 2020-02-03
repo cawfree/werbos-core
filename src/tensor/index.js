@@ -19,7 +19,7 @@ const ortho = inputs => ({
 const shouldOrtho = (data, normals) => {
   const { m, s } = normals;
   const i = 1 / s;
-  return new Float32Array(data.map(e => (e - m) * i));
+  return new Float32Array(data.map(e => ((e - m) * i)));
 };
 
 const reshape2d = ([...tensors]) => {
