@@ -28,12 +28,11 @@ it("should be capable of calculating regression using the boston dataset", () =>
       [/$.*.medv/]
     ])
     .use(normalize(), scalar())
-    .use(sequential(dense(), dense(), dense()));
+    .use(sequential(dense({ units: 100 }), dense({ units: 100 }), dense({ units: 100 })));
 
   const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
   );
-  console.log(x);
 
   expect(true).toBeTruthy();
 });
