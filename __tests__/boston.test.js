@@ -31,7 +31,7 @@ it("should be capable of calculating regression using the boston dataset", () =>
     ])
     .use(normalize(), scalar())
     .use(sequential(dense({ units: 64 }), dense({ units: 64 }), dense()))
-    .use(train());
+    .use(train({ epochs: 100 }));
 
   const x = app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
 
