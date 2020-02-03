@@ -12,10 +12,13 @@ import {
 
 // https://en.wikipedia.org/wiki/Feature_scaling#Standardization_(Z-score_Normalization)
 const normalizeInputs = inputs => {
-  // mean and std is what we need
   const m = mean(inputs);
   const s = 1 / stdev(inputs);
-  return new Float32Array(inputs.map(e => (e - m) * s));
+  return {
+    m,
+    s,
+    data: new Float32Array(inputs.map(e => (e - m) * s)),
+  };
 };
 
 const reshape2d = ([...tensors]) => {
@@ -26,15 +29,33 @@ const reshape2d = ([...tensors]) => {
 
 export const normalize = () => handle =>
   [
-    handle("[Number]", input => tensorTypeDef(
-        TYPEDEF_NORMALIZED_NUMERIC_1D,
-        tf.tensor1d(normalizeInputs(input))
-      ),
+    handle(
+      "[Number]",
+      (input) => {
+        const { m, s, data } = normalizeInputs(input);
+        return tensorTypeDef(
+          TYPEDEF_NORMALIZED_NUMERIC_1D,
+          tf.tensor1d(data),
+          {
+            m,
+            s,
+          },
+        );
+      },
     ),
-    handle("[[Number]]", inputs => tensorTypeDef(
-        TYPEDEF_NORMALIZED_NUMERIC_2D,
-        reshape2d(inputs.map(t => tf.tensor1d(normalizeInputs(t)))),
-      ),
+    handle(
+      '[[Number]]',
+      (inputs) => {
+        const normals = inputs.map(t => normalizeInputs(t));
+        return tensorTypeDef(
+          TYPEDEF_NORMALIZED_NUMERIC_2D,
+          reshape2d(normals.map(({ data }) => data)),
+          {
+            m: normals.map(({ m }) => m),
+            s: normals.map(({ s }) => s),
+          },
+        );
+      },
     ),
   ] && undefined;
 

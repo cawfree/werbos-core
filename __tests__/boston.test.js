@@ -29,8 +29,9 @@ it("should be capable of calculating regression using the boston dataset", () =>
       ],
       [/$.*.medv/]
     ])
-    .use(normalize(), scalar())
-    .use(sequential(dense({ units: 16 }), dense({ units: 16 }), dense())) .use(justOnce(train()));
+    .use(normalize(), scalar());
+    //.use(sequential(dense({ units: 16 }), dense({ units: 16 }), dense()))
+    //.use(justOnce(train()));
 
   const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
