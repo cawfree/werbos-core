@@ -15,7 +15,7 @@ it("should be capable of classifying imdb review sentiment", () => {
         [/$.*.s/],
       ],
     )
-    .use(oneHot(), oneHot());
+    .use(oneHot({ max: 1024 }), oneHot());
 
   const result = app('https://github.com/nas5w/imdb-data/raw/master/reviews.json');
 
