@@ -101,6 +101,18 @@ const symbols = (src, max = Number.MAX_SAFE_INTEGER) =>
     .map(([w]) => w)
     .filter((_, i) => i < max);
 
+const oneHotTensor = (features, symbols) => tf.tensor1d(
+  [].concat(
+     ...features
+      .map(f => f.map(e => symbols.indexOf(e)))
+      .map(
+        arr => [...Array(symbols.length)]
+          .map((_, i) => arr.indexOf(i) >= 0 ? 1 : 0),
+      ),
+    ),
+  )
+  .reshape([features.length, symbols.length]);
+
 export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
   if (typeCheck('Object', options)) {
     // TODO: Need smarter options handling, as well as per-type initialization.
@@ -110,18 +122,32 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
     };
     const { max } = opts;
     handle(
-      "[[String]]", (input) => {
-        const words = input
-          .reduce(
-            (arr, e) => arr.concat(...e.map(f => f.toLowerCase().match(/\w+\s+/g))),
-            [],
-          );
-        const sym = symbols(words, max);
-
+      "[[String]]", (inputs) => {
+        // TODO: Not always words! Need to abstract toLowerCase() and the RegExp!
+        const features = inputs.reduce(
+          (arr, e) => arr.concat(e.map(f => f.toLowerCase().match(/\w+\s+/g))),
+          [],
+        );
+        const sym = symbols([].concat(...features), max);
+        return tensorTypeDef(
+          TYPEDEF_ONE_HOT_STRING_2D,
+          oneHotTensor(features, sym),
+        );
       },
     );
     handle(
-      "[[Number]]", () => console.log('ici number'),
+      "[[Number]]", (inputs) => {
+        const features = inputs
+          .reduce(
+            (arr, e) => arr.concat(...e),
+            [],
+          );
+        const sym = symbols([].concat(...features), max);
+        return tensorTypeDef(
+          TYPEDEF_ONE_HOT_NUMERIC_2D,
+          oneHotTensor(features.map(f => [f]), sym),
+        );
+      },
     );
     return undefined;
   }
