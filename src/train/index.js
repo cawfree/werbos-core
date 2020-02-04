@@ -2,30 +2,34 @@ import * as tf from '@tensorflow/tfjs';
 import { typeCheck } from 'type-check';
 
 import { ModelTypeDef, TensorTypeDef } from '../shape';
+import { getLoss } from '../loss';
 
 const defaultOptions = Object
   .freeze(
     {
       batchSize: 128,
       epochs: 10,
-      loss: 'meanSquaredError',
-      metrics: ['mae'],
+      validationSplit: 0.0625,
+      //loss: 'meanSquaredError',
+      //metrics: ['mae'],
       optimizer: tf.train.rmsprop(1e-2),
     },
   );
 
 export default (options = defaultOptions) => burden => burden(
   `(${ModelTypeDef},${TensorTypeDef},${TensorTypeDef})`,
-  ([{ $model: model }, { $tensor: xs }, { $tensor: ys }], { useState }) => {
+  ([{ $model: model }, { $tensor: xs }, yt], { useState }) => {
     if (typeCheck('Object', options)) {
+      const { $tensor: ys } = yt;
       const [trained, setTrained] = useState(() => false);
       if (!trained) {
         const {
           batchSize,
           epochs,
           optimizer,
-          loss,
-          metrics,
+          validationSplit,
+          //loss,
+          //metrics, // TODO: should extend
           // TODO: Use deepMerge
         } = { ...defaultOptions, ...options };
         return Promise
@@ -37,8 +41,8 @@ export default (options = defaultOptions) => burden => burden(
               model.compile(
                 {
                   optimizer,
-                  loss,
-                  metrics,
+                  loss: getLoss(yt),
+                  //metrics,
                 },
               );
               return model.fit(
@@ -47,6 +51,7 @@ export default (options = defaultOptions) => burden => burden(
                 {
                   batchSize,
                   epochs,
+                  validationSplit,
                 },
               );
             },

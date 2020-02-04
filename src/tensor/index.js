@@ -122,13 +122,15 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
     };
     const { max } = opts;
     handle(
-      "[[String]]", (inputs) => {
+      "[[String]]", (inputs, { useState }) => {
         // TODO: Not always words! Need to abstract toLowerCase() and the RegExp!
         const features = inputs.reduce(
           (arr, e) => arr.concat(e.map(f => f.toLowerCase().match(/\w+\s+/g))),
           [],
         );
-        const sym = symbols([].concat(...features), max);
+        const [sym] = useState(
+          () => symbols([].concat(...features), max),
+        );
         return tensorTypeDef(
           TYPEDEF_ONE_HOT_STRING_2D,
           oneHotTensor(features, sym),
@@ -136,13 +138,15 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
       },
     );
     handle(
-      "[[Number]]", (inputs) => {
+      "[[Number]]", (inputs, { useState }) => {
         const features = inputs
           .reduce(
             (arr, e) => arr.concat(...e),
             [],
           );
-        const sym = symbols([].concat(...features), max);
+        const [sym] = useState(
+          () => symbols([].concat(...features), max),
+        );
         return tensorTypeDef(
           TYPEDEF_ONE_HOT_NUMERIC_2D,
           oneHotTensor(features.map(f => [f]), sym),
