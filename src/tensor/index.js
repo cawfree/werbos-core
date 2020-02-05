@@ -1,6 +1,7 @@
 import * as tf from "@tensorflow/tfjs";
 import { stdev, mean } from "stats-lite";
 import { typeCheck } from "type-check";
+import otsu from "otsu";
 
 import {
   tensorTypeDef,
@@ -13,6 +14,8 @@ import {
 
   TYPEDEF_ONE_HOT_STRING_2D,
   TYPEDEF_ONE_HOT_NUMERIC_2D,
+
+  TYPEDEF_THRESHOLD_NUMERIC_2D,
 } from "../wbf";
 
 const ortho = inputs => ({
@@ -158,11 +161,16 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
   throw new Error(`Expected [object Object], encountered ${options}.`);
 };
 
-// calculate a good threshold
-
-export const threshold = () => handle => [
-  handle('[[Number]]', (inputs) => {
-    console.log(inputs);
-    console.log('ici');
-  }),
-] && undefined;
+//export const threshold = () => handle => [
+//  handle('[[Number]]', (inputs) => {
+//    return tf.concat(
+//      inputs
+//        .map(
+//          e => tf.tensor1d(e)
+//            .sub(tf.scalar(otsu(e)))
+//            .sign()
+//            .relu(),
+//        ),
+//    );
+//  }),
+//] && undefined;

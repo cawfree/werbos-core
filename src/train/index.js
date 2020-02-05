@@ -10,7 +10,6 @@ const defaultOptions = Object
       batchSize: 128,
       epochs: 10,
       validationSplit: 0.0625,
-      //loss: 'meanSquaredError',
       //metrics: ['mae'],
       optimizer: tf.train.rmsprop(1e-2),
     },
@@ -28,9 +27,7 @@ export default (options = defaultOptions) => burden => burden(
           epochs,
           optimizer,
           validationSplit,
-          //loss,
           //metrics, // TODO: should extend
-          // TODO: Use deepMerge
         } = { ...defaultOptions, ...options };
         return Promise
           .resolve()
