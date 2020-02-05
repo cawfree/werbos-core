@@ -2,6 +2,8 @@ import { typeCheck } from 'type-check';
 
 import { Tensor, Model } from "../shape";
 
+// TODO: This is too rigid; it's hard to extend. The identifiers don't appear to buy us anything. They **NEED** to be extensible.
+//       Need to be able to easily define things like loss, activation, etc. Based on these identifiers.
 export const TYPEDEF_SCALAR_NUMERIC_1D = 'yrMU4_1DHwoG2e2F5ZwCX';
 export const TYPEDEF_SCALAR_NUMERIC_2D = '0cu01ul1k2OspeYLmqok7';
 

@@ -157,3 +157,12 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
   }
   throw new Error(`Expected [object Object], encountered ${options}.`);
 };
+
+// calculate a good threshold
+
+export const threshold = () => handle => [
+  handle('[[Number]]', (inputs) => {
+    console.log(inputs);
+    console.log('ici');
+  }),
+] && undefined;
