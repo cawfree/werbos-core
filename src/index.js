@@ -2,8 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import compose from 'rippleware';
 
-// threshold
-export { normalize, scalar, oneHot } from "./tensor";
+export { normalize, scalar, oneHot, threshold } from "./tensor";
 export { sequential, dense } from "./network";
 export { default as train } from "./train";
 

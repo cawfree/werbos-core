@@ -3,32 +3,27 @@ import '@tensorflow/tfjs-node';
 
 import otsu from 'otsu';
 
-// TODO: Remove threshold. // , threshold
-import werbos, { files, scalar, oneHot } from '../src';
+import werbos, { files, scalar, oneHot, threshold, sequential, dense, train } from '../src';
 
 it("should be capable of recognizing handwritten digits", () => {
   const app = werbos()
     .use(files())
-    .use(scalar(), oneHot());
+    .use(threshold(), oneHot())
+    .use(sequential(dense({ units: 64 }), dense()))
+    .use(train());
 
   const result = app(
+    '/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json',
+    '/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json',
+  );
+
+  const result2 = app(
     '/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json',
     '/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json',
   );
 
   console.log(result);
+  console.log(result2);
 
-
-    //'/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json', // raw pixel data... how to process?
-    //'/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json', // raw labels
-
-  //result[0].print();
-
-  //console.log(JSON.stringify(result[0].dataSync()));
-
-  //console.log(result);
-  //const y = app(
-  //  '/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json',
-  //  '/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json',
-  //);
+  result2.print();
 });

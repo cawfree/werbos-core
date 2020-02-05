@@ -150,6 +150,8 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
         const [sym] = useState(
           () => symbols([].concat(...features), max),
         );
+
+        console.log(sym);
         return tensorTypeDef(
           TYPEDEF_ONE_HOT_NUMERIC_2D,
           oneHotTensor(features.map(f => [f]), sym),
@@ -161,16 +163,22 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
   throw new Error(`Expected [object Object], encountered ${options}.`);
 };
 
-//export const threshold = () => handle => [
-//  handle('[[Number]]', (inputs) => {
-//    return tf.concat(
-//      inputs
-//        .map(
-//          e => tf.tensor1d(e)
-//            .sub(tf.scalar(otsu(e)))
-//            .sign()
-//            .relu(),
-//        ),
-//    );
-//  }),
-//] && undefined;
+export const threshold = () => handle => [
+  handle('[[Number]]', (inputs) => {
+    const features = tf.concat(
+      inputs
+        .map(
+          e => tf.tensor1d(e)
+            .sub(tf.scalar(otsu(e)))
+            .sign()
+            .relu(),
+        ),
+    );
+    const { shape } = features;
+    const [total] = shape;
+    return tensorTypeDef(
+      TYPEDEF_THRESHOLD_NUMERIC_2D,
+      features.reshape([inputs.length, (total / inputs.length)]),
+    );
+  }),
+] && undefined;

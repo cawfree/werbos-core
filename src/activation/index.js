@@ -5,6 +5,7 @@ import {
   TYPEDEF_NORMALIZED_NUMERIC_2D,
   TYPEDEF_ONE_HOT_STRING_2D,
   TYPEDEF_ONE_HOT_NUMERIC_2D,
+  TYPEDEF_THRESHOLD_NUMERIC_2D,
 } from '../wbf';
 
 import { TensorTypeDef } from "../shape";
@@ -17,6 +18,8 @@ export const getInputActivation = (tensorTypeDef) => {
       //       activation function.
       return 'relu';
     } else if (type === TYPEDEF_ONE_HOT_STRING_2D) {
+      return 'relu';
+    } else if (type === TYPEDEF_THRESHOLD_NUMERIC_2D) {
       return 'relu';
     }
     throw new Error(`Unable to determine input activation for ${type}.`);

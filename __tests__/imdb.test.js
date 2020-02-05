@@ -22,8 +22,6 @@ it("should be capable of classifying imdb review sentiment", () => {
 
   const result = app('https://github.com/nas5w/imdb-data/raw/master/reviews.json');
 
-  console.log(result);
-
   const result2 = app(
     [
       { t: 'This movie was totally and utterly crap. What a waste of time. I will never watch this again.', s: 0},
@@ -31,7 +29,6 @@ it("should be capable of classifying imdb review sentiment", () => {
     ],
   );
 
-  //console.log(result2);
   result2.print();
 
   expect(true)
