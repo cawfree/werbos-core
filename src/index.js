@@ -1,10 +1,8 @@
 import axios from "axios";
 import fs from "fs";
-import compose from "rippleware";
+import compose, { justOnce } from "rippleware";
 
-export { normalize, scalar, oneHot, threshold } from "./tensor";
-export { sequential, dense } from "./network";
-export { default as train } from "./train";
+import createStore from './createStore';
 
 export const https = () => handle =>
   handle("String", url =>
@@ -28,4 +26,4 @@ export const files = () => handle =>
     )
   ] && undefined;
 
-export default compose;
+export default (options = { sync: true }) => compose(createStore, options);
