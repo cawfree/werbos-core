@@ -1,1 +1,1 @@
-export const RECEIVE_TENSOR = 'tensor/receive_tensor';
+export const RECEIVE_TENSOR = "tensor/receive_tensor";

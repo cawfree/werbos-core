@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import compose, { justOnce } from "rippleware";
 
-import createStore from './createStore';
+import createStore from "./createStore";
 
 export const https = () => handle =>
   handle("String", url =>
