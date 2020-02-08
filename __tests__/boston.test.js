@@ -59,8 +59,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
     {"crim":0.00632,"zn":18,"indus":2.31,"chas":0,"nox":0.538,"rm":6.575,"age":65.2,"dis":4.09,"rad":1,"tax":296,"ptratio":15.3,"b":396.9,"lstat":4.98,"medv":24},
   ];
 
-  app(data)
-    .print();
+  const result = app(data);
+  console.log(result);
 
   expect(true).toBeTruthy();
 });

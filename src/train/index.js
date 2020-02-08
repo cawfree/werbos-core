@@ -3,6 +3,7 @@ import { typeCheck } from 'type-check';
 
 import { ModelTypeDef, TensorTypeDef } from '../shape';
 import { getLoss } from '../loss';
+import collect from '../collect';
 
 const defaultOptions = Object
   .freeze(
@@ -19,7 +20,7 @@ export default (options = defaultOptions) => burden => burden(
   `(${ModelTypeDef},${TensorTypeDef},${TensorTypeDef})`,
   ([{ $model: model }, { $tensor: xs }, yt], { useState }) => {
     if (typeCheck('Object', options)) {
-      const { $tensor: ys } = yt;
+      const { $tensor: ys, ...outputProps } = yt;
       const [trained, setTrained] = useState(() => false);
       if (!trained) {
         const {
@@ -56,7 +57,8 @@ export default (options = defaultOptions) => burden => burden(
       }
       return Promise
         .resolve()
-        .then(() => model.predict(xs, ys));
+        .then(() => model.predict(xs, ys))
+        .then(result => collect(outputProps, result));
     }
     return Promise
       .reject(

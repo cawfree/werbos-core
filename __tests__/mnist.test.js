@@ -22,8 +22,12 @@ it("should be capable of recognizing handwritten digits", () => {
     '/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json',
   );
 
-  console.log(result);
   console.log(result2);
 
-  result2.print();
+  expect(true).toBeTruthy();
+
+  //console.log(result);
+  //console.log(result2);
+
+  //result2.print();
 });

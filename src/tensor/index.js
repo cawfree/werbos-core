@@ -137,6 +137,7 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
         return tensorTypeDef(
           TYPEDEF_ONE_HOT_STRING_2D,
           oneHotTensor(features, sym),
+          { sym },
         );
       },
     );
@@ -150,11 +151,10 @@ export const oneHot = (options = oneHotDefaultOptions) => (handle) => {
         const [sym] = useState(
           () => symbols([].concat(...features), max),
         );
-
-        console.log(sym);
         return tensorTypeDef(
           TYPEDEF_ONE_HOT_NUMERIC_2D,
           oneHotTensor(features.map(f => [f]), sym),
+          { sym },
         );
       },
     );

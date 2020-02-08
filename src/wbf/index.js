@@ -47,12 +47,20 @@ const typeDefs = Object
       },
       [TYPEDEF_ONE_HOT_STRING_2D]: {
         build(options) {
-          return options;
+          const { sym } = options;
+          if (typeCheck('[*]', sym)) {
+            return options;
+          }
+          throw new Error('oneHot must specify symbols.');
         },
       },
       [TYPEDEF_ONE_HOT_NUMERIC_2D]: {
         build(options) {
-          return options;
+          const { sym } = options;
+          if (typeCheck('[*]', sym)) {
+            return options;
+          }
+          throw new Error('oneHot must specify symbols.');
         },
       },
       [TYPEDEF_THRESHOLD_NUMERIC_2D]: {
