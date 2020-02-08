@@ -1,7 +1,6 @@
 import { typeCheck } from "type-check";
 import { createTensor } from "./model";
 import { RECEIVE_TENSOR } from "./actionTypes";
-import * as tensors from './classes';
 
 // TODO: Throw if the user has supplied a "type" property.
 const receiveTensor = (tensor) => (dispatch, getState) => {
@@ -20,4 +19,12 @@ const receiveTensor = (tensor) => (dispatch, getState) => {
   }
 };
 
-export const initializeTensors = () => (dispatch, getState) => Object.values(tensors).map(t => dispatch(receiveTensor(t)));
+export const initializeTensors = () => (dispatch) => {
+  dispatch(receiveTensor(require('./defs/numeric-1d-normal.json')));
+  dispatch(receiveTensor(require('./defs/numeric-1d-scalar.json')));
+  dispatch(receiveTensor(require('./defs/numeric-2d-normal.json')));
+  dispatch(receiveTensor(require('./defs/numeric-2d-onehot.json')));
+  dispatch(receiveTensor(require('./defs/numeric-2d-scalar.json')));
+  dispatch(receiveTensor(require('./defs/numeric-2d-threshold.json')));
+  dispatch(receiveTensor(require('./defs/string-2d-onehot.json')));
+};
