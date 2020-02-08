@@ -12,17 +12,16 @@ export default (outputProps, result) => {
       .dataSync();
   } else if (type === TYPEDEF_ONE_HOT_NUMERIC_2D) {
     const { sym } = extras;
-    const winners = tf.tidy(
+    return tf.tidy(
       () => tf
         .multinomial(
-          tf.div(tf.log(tf.squeeze(result)), 1e-6), // 0.5?
+          tf.div(tf.log(tf.squeeze(result)), 1e-6),
           1,
           null,
           false,
         )
         .dataSync(),
-    );
-    return winners
+    )
       .map(e => sym[e]);
   }
   throw new Error(`Unsupported output type, ${type}.`);

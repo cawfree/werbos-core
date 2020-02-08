@@ -36,7 +36,6 @@ it("should be capable of calculating regression using the boston dataset", () =>
     .use(sequential(dense({ units: 64 }), dense({ units: 64 }), dense()))
     .use(train({ epochs: 100 }));
 
-  // Initialize the network using the boston dataset.
   app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
 
   const data = [

@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import '@babel/polyfill';
 import '@tensorflow/tfjs-node';
 
@@ -25,9 +28,4 @@ it("should be capable of recognizing handwritten digits", () => {
   console.log(result2);
 
   expect(true).toBeTruthy();
-
-  //console.log(result);
-  //console.log(result2);
-
-  //result2.print();
 });

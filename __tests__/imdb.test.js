@@ -29,7 +29,7 @@ it("should be capable of classifying imdb review sentiment", () => {
     ],
   );
 
-  result2.print();
+  console.log(result2);
 
   expect(true)
     .toBeTruthy();
