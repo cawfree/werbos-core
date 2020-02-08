@@ -1,12 +1,20 @@
 /**
  * @jest-environment node
  */
-import '@babel/polyfill';
-import '@tensorflow/tfjs-node';
+import "@babel/polyfill";
+import "@tensorflow/tfjs-node";
 
-import otsu from 'otsu';
+import otsu from "otsu";
 
-import werbos, { files, scalar, oneHot, threshold, sequential, dense, train } from '../src';
+import werbos, {
+  files,
+  scalar,
+  oneHot,
+  threshold,
+  sequential,
+  dense,
+  train
+} from "../src";
 
 it("should be capable of recognizing handwritten digits", () => {
   const app = werbos()
@@ -16,13 +24,13 @@ it("should be capable of recognizing handwritten digits", () => {
     .use(train());
 
   const result = app(
-    '/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json',
-    '/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json',
+    "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
+    "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
   );
 
   const result2 = app(
-    '/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json',
-    '/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json',
+    "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
+    "/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json"
   );
 
   console.log(result2);

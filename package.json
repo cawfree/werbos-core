@@ -28,7 +28,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "otsu": "^0.0.4",
-    "rippleware": "^0.0.10",
+    "rippleware": "^0.0.12",
     "stats-lite": "^2.2.0",
     "type-check": "^0.3.2"
   }
