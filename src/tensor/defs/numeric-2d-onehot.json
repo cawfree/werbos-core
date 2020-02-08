@@ -1,3 +1,5 @@
 {
-  "id": "aNSO-fJeiHg3Z8xpkoXa8"
+  "id": "aNSO-fJeiHg3Z8xpkoXa8",
+  "targetActivation": "softmax",
+  "loss": "categoricalCrossentropy"
 }

@@ -1,3 +1,4 @@
 {
-  "id": "0cu01ul1k2OspeYLmqok7"
+  "id": "0cu01ul1k2OspeYLmqok7",
+  "loss": "meanSquaredError"
 }
