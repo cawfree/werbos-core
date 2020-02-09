@@ -1,6 +1,6 @@
-import { tensor1d } from '@tensorflow/tfjs';
+import { tensor1d } from "@tensorflow/tfjs";
 
-import { stats, scaleFeatures } from '../model';
+import { stats, scaleFeatures } from "../model";
 
 export default () => (input, { useState }) => {
   const [[mean, std]] = useState(() => stats(input));

@@ -30,6 +30,11 @@ it("should be capable of calculating regression using the boston dataset", () =>
     ])
     .use(normalize(), scalar());
 
-  console.log(app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"));
+  console.log(
+    app(
+      "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
+    )
+  );
 
+  expect(true).toBeTruthy();
 });

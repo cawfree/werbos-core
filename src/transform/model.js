@@ -1,5 +1,5 @@
-import { tensor1d, concat } from '@tensorflow/tfjs';
-import { Map } from "immutable";
+import { tensor1d, concat } from "@tensorflow/tfjs";
+import { Map as ImmutableMap } from "immutable";
 import { stdev, mean } from "stats-lite";
 
 export const stats = inputs => [mean(inputs), stdev(inputs)];
@@ -31,14 +31,13 @@ export const oneHot = (features, symbols) =>
   tensor1d(
     [].concat(
       ...features
-      .map(f => f.map(e => symbols.indexOf(e)))
-      .map(arr =>
-        [...Array(symbols.length)].map((_, i) =>
-          arr.indexOf(i) >= 0 ? 1 : 0
+        .map(f => f.map(e => symbols.indexOf(e)))
+        .map(arr =>
+          [...Array(symbols.length)].map((_, i) =>
+            arr.indexOf(i) >= 0 ? 1 : 0
+          )
         )
-      )
     )
-  )
-  .reshape([features.length, symbols.length]);
+  ).reshape([features.length, symbols.length]);
 
-export default Map({});
+export default ImmutableMap({});

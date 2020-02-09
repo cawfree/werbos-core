@@ -1,11 +1,18 @@
-import { symbolize, oneHot } from '../model';
+import { symbolize, oneHot } from "../model";
 
-// TODO: Need to abstract regex
-const max = 1;
-const regexp = /\w+\s+/g;
+const defaultOptions = Object.freeze(
+  {
+    max: Number.POSITIVE_INFINITY,
+    exp: /\w+\s+/g,
+  },
+);
 
-export default () => (inputs) => {
-  const features = inputs.reduce((arr, e) => arr.concat(e.map(f => f.toLowerCase().match(regexp))), []);
-  const [sym] = useState(() => symbols([].concat(...features), max));
+export default (opts = defaultOptions) => (inputs, { useState }) => {
+  const { max, exp } = { ...defaultOptions, ...opts };
+  const features = inputs.reduce(
+    (arr, e) => arr.concat(e.map(f => f.toLowerCase().match(exp))),
+    []
+  );
+  const [sym] = useState(() => symbolize([].concat(...features), max));
   return oneHot(features, sym);
 };
