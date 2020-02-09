@@ -8,6 +8,5 @@ export default () => (inputs, { useState }) => {
     const [mean, std] = normals[i];
     return scaleFeatures(input, mean, std);
   });
-  // TODO: We can likely abstract this by config.
   return reshape2d(data);
 };

@@ -4,6 +4,8 @@ import otsu from "otsu";
 import { reshape2d } from "../model";
 
 export default () => inputs =>
+  // TODO: This might be wrong! It's a different implementation from /master.
+  //       If low prediction rates occur, the older model should be reused.
   reshape2d(
     inputs.map(input =>
       tensor1d(input)
@@ -11,4 +13,5 @@ export default () => inputs =>
         .sign()
         .relu()
     )
-  );
+  )
+  .transpose();

@@ -31,7 +31,7 @@
     "otsu": "^0.0.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rippleware": "^0.0.13",
+    "rippleware": "^0.0.15",
     "stats-lite": "^2.2.0",
     "type-check": "^0.3.2"
   }

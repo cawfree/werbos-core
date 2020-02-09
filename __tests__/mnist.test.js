@@ -12,8 +12,10 @@ it("should be capable of handwriting classification using the mnist dataset", ()
     .use(files())
     .use(threshold(), oneHot());
 
-  console.log(app(
-    "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
-    "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
-  ));
+  console.log(
+    app(
+      "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
+      "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
+    )
+  );
 });
