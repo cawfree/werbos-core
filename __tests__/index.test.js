@@ -1,7 +1,6 @@
-import werbos from "../src";
+import werbos, { oneHot, normalize, scalar, threshold } from "../src";
 
 it("should register tensor type definitions by default", () => {
-  const app = werbos().use("*", input => !input);
-
-  expect(true).toBeTruthy();
+  expect(true)
+    .toBeTruthy();
 });

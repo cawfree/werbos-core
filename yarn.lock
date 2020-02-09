@@ -4362,10 +4362,10 @@ rimraf@^3.0.0:
   dependencies:
     glob "^7.1.3"
 
-rippleware@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/rippleware/-/rippleware-0.0.12.tgz#c82f5e30e83813a51cff355b45821095e202e759"
-  integrity sha512-wghh8I0YHlDef4cI5UJDE/fo1KnznngZY/Gjf9ZNPEtfNY+eP5FgTG4tRyzKOHenz3C9MX0v0Rycq6G01wzvAg==
+rippleware@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/rippleware/-/rippleware-0.0.13.tgz#67eadc61335af2849ac6bc758e15833f73df6463"
+  integrity sha512-OVL2zOO7ZS4mqfDgJ/O8PJjxJk2TswyQXGu/jwuogNyNQi3yIGmu280ILm2Yr7ThuLWD7lQWaf/A2xmL2Td8aw==
   dependencies:
     deasync "^0.1.19"
     deep-equal "^2.0.1"

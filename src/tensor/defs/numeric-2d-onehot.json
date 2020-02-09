@@ -1,5 +1,6 @@
 {
   "id": "aNSO-fJeiHg3Z8xpkoXa8",
   "targetActivation": "softmax",
+  "typeDef": "[[Number]]",
   "loss": "categoricalCrossentropy"
 }
