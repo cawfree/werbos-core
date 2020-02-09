@@ -10,7 +10,8 @@ import werbos, { files, threshold, oneHot } from "../src";
 it("should be capable of handwriting classification using the mnist dataset", () => {
   const app = werbos()
     .use(files())
-    .use(threshold(), oneHot());
+    .use(threshold(), oneHot())
+    .use('*', (_, { useMeta }) => useMeta());
 
   console.log(
     app(

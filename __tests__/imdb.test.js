@@ -13,7 +13,8 @@ it("should be capable of calculating imdb review sentiment", () => {
   const app = werbos()
     .use(justOnce(https()))
     .use([[/$.*.t/], [/$.*.s/]])
-    .use(oneHot({ max: 1024 }), oneHot());
+    .use(oneHot({ max: 3 }), oneHot())
+    .use('*', (_, { useMeta }) => useMeta());
 
   console.log(
     app("https://github.com/nas5w/imdb-data/raw/master/reviews.json")
