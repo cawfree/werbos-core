@@ -1,5 +1,5 @@
-import initialState from './model';
-import { RECEIVE_TRANSFORM } from './actionTypes';
+import initialState from "./model";
+import { RECEIVE_TRANSFORM } from "./actionTypes";
 
 export default (state = initialState, { type, ...extras }) => {
   switch (type) {

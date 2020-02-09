@@ -12,7 +12,9 @@ const receiveTensor = tensor => (dispatch, getState) => {
   if (!(typeCheck("String", id) && id.length > 0)) {
     throw new Error("A tensor must be allocated using a non-empty string.");
   } else if (state.has(id)) {
-    throw new Error(`A tensor with the id "${id}" has already been registered!`);
+    throw new Error(
+      `A tensor with the id "${id}" has already been registered!`
+    );
   }
   return dispatch({ ...createTensor(tensor), type: RECEIVE_TENSOR });
 };

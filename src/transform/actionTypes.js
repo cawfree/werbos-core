@@ -1,1 +1,1 @@
-export const RECEIVE_TRANSFORM = 'transform/receive_transform';
+export const RECEIVE_TRANSFORM = "transform/receive_transform";

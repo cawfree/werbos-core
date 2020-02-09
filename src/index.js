@@ -4,7 +4,7 @@ import compose, { justOnce } from "rippleware";
 
 import createStore from "./createStore";
 
-export { oneHot, normalize, scalar, threshold } from './transform';
+export { oneHot, normalize, scalar, threshold } from "./transform";
 
 export const https = () => handle =>
   handle("String", url =>
