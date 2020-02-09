@@ -1,1 +1,3 @@
-export default () => () => console.log("numeric 1d scalar");
+import { tensor1d } from '@tensorflow/tfjs';
+
+export default () => input => tensor1d(new Float32Array(input));
