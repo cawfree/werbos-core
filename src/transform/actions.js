@@ -25,11 +25,13 @@ const receiveTransform = (id, func) => (dispatch, getState) => {
   });
 };
 
+const wrap = (transform, opts) => (input, { useMeta, ...extras }) => transform(opts)(input, extras);
+
 const useTransform = (handle, { getState }, opts, ids) =>
   ids.map(id => {
     const { tensor, transform } = getState();
     const { typeDef } = tensor.get(id);
-    return handle(typeDef, transform.get(id)(opts));
+    return handle(typeDef, wrap(transform.get(id), opts));
   });
 
 export const oneHot = opts => (handle, store) =>
