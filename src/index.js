@@ -1,6 +1,7 @@
 import axios from "axios";
 import fs from "fs";
-import compose, { justOnce } from "rippleware";
+import compose from "rippleware";
+export { justOnce } from "rippleware;
 
 import createStore from "./createStore";
 
