@@ -4,6 +4,8 @@ import compose, { justOnce } from "rippleware";
 
 import createStore from "./createStore";
 
+export { dense } from "./layer";
+export { sequential } from "./network";
 export { oneHot, normalize, scalar, threshold } from "./transform";
 
 export const https = () => handle =>
