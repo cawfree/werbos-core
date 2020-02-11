@@ -20,8 +20,20 @@ const getInputProps = (state, [tensor, tensorMeta]) => {
   throw new Error(`Expected string activation, but encountered ${activation}.`);
 };
 
+// TODO: Should warn if the user specified units on the target, as these will be overwritten.
 const getTargetProps = (state, [tensor, targetMeta]) => {
-  return {};
+  const { tensor: typeDef } = targetMeta;
+  if (!typeCheck('String', typeDef)) {
+    throw new Error(`Expected tensor type definition, but encountered ${typeDef}.`);
+  }
+  const { shape } = tensor;
+  const { tensor: model } = state;
+  const { targetActivation: activation } = model.get(typeDef);
+  const units = shape[shape.length - 1];
+  if (typeCheck('String', activation)) {
+    return { units, activation };
+  }
+  return { units };
 };
 
 export default (options = defaultOptions) => (handle, { getState }) => handle(model(getState()), (model, { useGlobal, useMeta, useTopology }) => {
