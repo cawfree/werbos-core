@@ -1,6 +1,9 @@
-import compose from 'rippleware';
+import compose from "rippleware";
 
-export default () => {
-  return compose()
-    .use('*', () => false);
-};
+// TODO: Expects to be attached to two input tensors.
+
+export default () =>
+  compose().use("*", (input, { useMeta }) => {
+    console.log(useMeta());
+    useMeta(useMeta());
+  });

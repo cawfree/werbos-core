@@ -25,18 +25,23 @@ const receiveTransform = (id, func) => (dispatch, getState) => {
   });
 };
 
-const wrap = (tensor, transform, opts) => (input, { useMeta: useVanilla, ...extras }) => {
+const wrap = (tensor, transform, opts) => (
+  input,
+  { useMeta: useVanilla, ...extras }
+) => {
   const useMeta = (...args) => {
     const [obj] = args;
     if (args.length === 0) {
       return useVanilla();
     } else if (args.length === 1 && typeCheck("Object", obj)) {
-      if (obj.hasOwnProperty('tensor')) {
-        throw new Error("The property \"tensor\" is reserved.");
+      if (obj.hasOwnProperty("tensor")) {
+        throw new Error('The property "tensor" is reserved.');
       }
       return useVanilla({ ...obj, tensor });
     }
-    throw new Error('A call to useMeta must contain a single argument object, or undefined.');
+    throw new Error(
+      "A call to useMeta must contain a single argument object, or undefined."
+    );
   };
   // XXX: Ensures that at the very minimum, a transform defines the input tensor.
   return useMeta({}) || transform(opts)(input, { ...extras, useMeta });

@@ -13,5 +13,4 @@ export default () => inputs =>
         .sign()
         .relu()
     )
-  )
-  .transpose();
+  ).transpose();

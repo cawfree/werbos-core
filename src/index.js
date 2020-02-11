@@ -1,10 +1,10 @@
 import axios from "axios";
 import fs from "fs";
 import compose from "rippleware";
-export { justOnce } from "rippleware;
 
 import createStore from "./createStore";
 
+export { justOnce } from "rippleware";
 export { dense } from "./layer";
 export { sequential } from "./network";
 export { oneHot, normalize, scalar, threshold } from "./transform";
