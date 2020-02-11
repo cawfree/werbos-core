@@ -5,11 +5,12 @@ import { reducer as layer, build as layers } from "./layer";
 import { reducer as network, build as networks } from "./network";
 import { reducer as shape, build as shapes } from "./shape";
 import { reducer as tensor, build as tensors } from "./tensor";
+import { reducer as train, build as training } from "./train";
 import { reducer as transform, build as transforms } from "./transform";
 
 export default () => {
   const store = createStore(
-    combineReducers({ layer, network, shape, tensor, transform }),
+    combineReducers({ layer, network, shape, tensor, train, transform }),
     applyMiddleware(thunkMiddleware)
   );
 
@@ -18,6 +19,7 @@ export default () => {
   dispatch(layers());
   dispatch(shapes());
   dispatch(tensors());
+  dispatch(training());
   dispatch(transforms());
   dispatch(networks());
 
