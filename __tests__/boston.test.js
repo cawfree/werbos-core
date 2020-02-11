@@ -31,7 +31,7 @@ it("should be capable of calculating regression using the boston dataset", () =>
     .use(normalize(), scalar())
     .use(
       sequential()
-        //.use(dense({ units: 10 }))
+        .use(dense({ units: 10 }))
         //.use(dense({ units: 20 }))
         //.use(dense())
     );
