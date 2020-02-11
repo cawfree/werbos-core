@@ -1,9 +1,7 @@
+import { sequential } from "@tensorflow/tfjs";
 import compose from "rippleware";
 
-// TODO: Expects to be attached to two input tensors.
+import { stimuli } from '../../shape';
 
-export default () =>
-  compose().use("*", (input, { useMeta }) => {
-    console.log(useMeta());
-    useMeta(useMeta());
-  });
+export default () => compose()
+  .use((handle, { getState }) => handle(stimuli(getState()), (input, { useGlobal, useMeta }) => useMeta(useMeta()) || sequential()));
