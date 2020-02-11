@@ -27,12 +27,26 @@ const loss = (state, targetMeta) => {
   return loss;
 };
 
-export default (options = defaultOptions) => (handle, { getState }) => handle(model(getState()), (model, { useMeta, useState }) => {
+const rectify = (state, ys, targetMeta) => {
+  const { rectify } = state;
+  const { tensor: typeDef } = targetMeta;
+  if (!typeCheck('String', typeDef)) {
+    throw new Error(`Expected tensor type definition, but encountered ${typeDef}.`);
+  }
+  const shouldRectify = rectify.get(typeDef);
+  if (!typeCheck('Function', shouldRectify)) {
+    throw new Error(`Expected function rectifier, but encountered ${shouldRectify}.`);
+  }
+  return shouldRectify(ys);
+};
+
+export default (options = defaultOptions) => (handle, { getState }) => handle(model(getState()), (model, { useMeta, useState, useGlobal }) => {
+  const { getState } = useGlobal();
   const [trained, setTrained] = useState(false);
   const [[xs], [ys, targetMeta]] = useMeta();
+  const state = getState();
   if (!trained) {
     setTrained(true);
-    const state = getState();
     const { batchSize, epochs, optimizer, validationSplit } = {
       ...defaultOptions,
       ...options,
@@ -40,4 +54,5 @@ export default (options = defaultOptions) => (handle, { getState }) => handle(mo
     model.compile({ optimizer, loss: loss(state, targetMeta) });
     return model.fit(xs, ys, { batchSize, epochs, validationSplit });
   }
+  return rectify(state, ys, targetMeta);
 });
