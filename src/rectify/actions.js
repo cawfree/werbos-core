@@ -1,6 +1,7 @@
 import { typeCheck } from "type-check";
 
 import n2ds from "../tensor/defs/numeric-2d-scalar";
+import n2do from "../tensor/defs/numeric-2d-onehot";
 
 import { RECEIVE_RECTIFIER } from "./actionTypes";
 
@@ -24,4 +25,5 @@ export const receiveRectifier = (id, rectifier) => (dispatch, getState) => {
 
 export const build = () => (dispatch, getState) => {
   dispatch(receiveRectifier(n2ds.id, require('./defs/numeric-2d-scalar.js').default));
+  dispatch(receiveRectifier(n2do.id, require('./defs/numeric-2d-onehot.js').default));
 };

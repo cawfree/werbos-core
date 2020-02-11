@@ -1,1 +1,1 @@
-export default tensor => tensor.dataSync();
+export default (tensor, meta) => tensor.dataSync();

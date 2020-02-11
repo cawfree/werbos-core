@@ -37,7 +37,7 @@ const rectify = (state, ys, targetMeta) => {
   if (!typeCheck('Function', shouldRectify)) {
     throw new Error(`Expected function rectifier, but encountered ${shouldRectify}.`);
   }
-  return shouldRectify(ys);
+  return shouldRectify(ys, targetMeta);
 };
 
 export default (options = defaultOptions) => (handle, { getState }) => handle(model(getState()), (model, { useMeta, useState, useGlobal }) => {
