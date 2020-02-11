@@ -1,1 +1,1 @@
-export const RECEIVE_SHAPE = 'shape/receive_shape';
+export const RECEIVE_SHAPE = "shape/receive_shape";

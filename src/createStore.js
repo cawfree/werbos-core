@@ -11,7 +11,15 @@ import { reducer as transform, build as transforms } from "./transform";
 
 export default () => {
   const store = createStore(
-    combineReducers({ layer, network, rectify, shape, tensor, train, transform }),
+    combineReducers({
+      layer,
+      network,
+      rectify,
+      shape,
+      tensor,
+      train,
+      transform
+    }),
     applyMiddleware(thunkMiddleware)
   );
 

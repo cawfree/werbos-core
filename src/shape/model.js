@@ -13,7 +13,9 @@ const getShape = (state, id) => {
   if (shape.has(id)) {
     return shape.get(id);
   }
-  throw new Error(`Attempted to get shape for id "${id}", but it does not exist.`);
+  throw new Error(
+    `Attempted to get shape for id "${id}", but it does not exist.`
+  );
 };
 
 export const model = state => getShape(state, modelId);
