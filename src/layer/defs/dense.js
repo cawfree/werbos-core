@@ -44,6 +44,7 @@ export default (options = defaultOptions) => (handle, { getState }) => handle(mo
   const [inputDef, targetDef] = useMeta();
   const { getState } = useGlobal();
   const state = getState();
+
   model.add(
     dense(
       {

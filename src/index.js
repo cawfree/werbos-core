@@ -7,6 +7,7 @@ import createStore from "./createStore";
 export { justOnce } from "rippleware";
 export { dense } from "./layer";
 export { sequential } from "./network";
+export { train } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";
 
 export const https = () => handle =>

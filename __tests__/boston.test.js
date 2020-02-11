@@ -5,7 +5,7 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import werbos, { https, normalize, scalar, sequential, dense } from "../src";
+import werbos, { https, normalize, scalar, sequential, dense, train } from "../src";
 
 it("should be capable of calculating regression using the boston dataset", () => {
   const app = werbos()
@@ -34,7 +34,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
         .use(dense({ units: 64 }))
         .use(dense({ units: 64 }))
         .use(dense())
-    );
+    )
+    .use(train());
 
   app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
 
