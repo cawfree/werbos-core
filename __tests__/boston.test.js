@@ -1,12 +1,11 @@
 /**
- * @jest-environment node
+ *  @jest-environment node
  */
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import * as tf from "@tensorflow/tfjs";
-
 import werbos, {
+  justOnce,
   https,
   normalize,
   scalar,
@@ -14,9 +13,6 @@ import werbos, {
   dense,
   train
 } from "../src";
-
-import { justOnce } from "rippleware";
-import { typeCheck } from "type-check";
 
 it("should be capable of calculating regression using the boston dataset", () => {
   const app = werbos()
@@ -40,14 +36,19 @@ it("should be capable of calculating regression using the boston dataset", () =>
       [/$.*.medv/]
     ])
     .use(normalize(), scalar())
-    .use(sequential(dense({ units: 64 }), dense({ units: 64 }), dense()))
-    .use(train({ epochs: 100 }));
+    .use(
+      sequential()
+        .use(dense({ units: 64 }))
+        .use(dense({ units: 64 }))
+        .use(dense())
+    )
+    .use(train());
 
-  app(
+  const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
   );
 
-  const data = [
+  const y = app([
     {
       crim: 0.06905,
       zn: 0,
@@ -80,10 +81,10 @@ it("should be capable of calculating regression using the boston dataset", () =>
       lstat: 4.98,
       medv: 24
     }
-  ];
+  ]);
 
-  const result = app(data);
-  console.log(result);
+  console.log(y);
 
+  // TODO: Need to validate specific values.
   expect(true).toBeTruthy();
 });

@@ -1,25 +1,30 @@
 /**
- * @jest-environment node
+ *  @jest-environment node
  */
+
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import werbos, { https, oneHot, sequential, dense, train } from "../src";
 import { justOnce } from "rippleware";
 
-it("should be capable of classifying imdb review sentiment", () => {
+import werbos, { https, oneHot, sequential, dense, train } from "../src";
+
+it("should be capable of calculating imdb review sentiment", () => {
   const app = werbos()
     .use(justOnce(https()))
     .use([[/$.*.t/], [/$.*.s/]])
     .use(oneHot({ max: 512 }), oneHot())
-    .use(sequential(dense({ units: 128 }), dense({ units: 64 }), dense()))
-    .use(train({ epochs: 20 }));
+    .use(
+      sequential()
+        .use(dense({ units: 128 }))
+        .use(dense({ units: 64 }))
+        .use(dense())
+    )
+    .use(train());
 
-  const result = app(
-    "https://github.com/nas5w/imdb-data/raw/master/reviews.json"
-  );
+  app("https://github.com/nas5w/imdb-data/raw/master/reviews.json");
 
-  const result2 = app([
+  const results = app([
     {
       t:
         "This movie was totally and utterly crap. What a waste of time. I will never watch this again.",
@@ -32,7 +37,7 @@ it("should be capable of classifying imdb review sentiment", () => {
     }
   ]);
 
-  console.log(result2);
+  console.log(results);
 
   expect(true).toBeTruthy();
 });

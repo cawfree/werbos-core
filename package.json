@@ -27,8 +27,11 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "immutable": "^4.0.0-rc.12",
     "otsu": "^0.0.4",
-    "rippleware": "^0.0.12",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "rippleware": "^0.0.18",
     "stats-lite": "^2.2.0",
     "type-check": "^0.3.2"
   }
