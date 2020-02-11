@@ -1,7 +1,6 @@
 /**
  *  @jest-environment node
  */
-
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
@@ -37,7 +36,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
     )
     .use(train());
 
-  app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
+  const x = app("https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json");
+  console.log(x);
 
   expect(true).toBeTruthy();
 });
