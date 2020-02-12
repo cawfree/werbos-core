@@ -48,19 +48,19 @@ export default (options = defaultOptions) => (handle, { getState }) =>
   handle(model(getState()), (model, { useMeta, useState, useGlobal }) => {
     const { getState } = useGlobal();
     // TODO: We need a proper architecture for this after the build level.
-    const [cachedModel, setCachedModel] = useState(null);
-    const [trained, setTrained] = useState(false);
+    //       At the moment, we just keep re-recreating networks uselessly.
+    const [cached, setCached] = useState(null);
     const [[xs], [ys, targetMeta]] = useMeta();
     const state = getState();
-    if (!trained) {
-      setTrained(true);
+    if (!cached) {
       const { batchSize, epochs, optimizer, validationSplit } = {
         ...defaultOptions,
         ...options
       };
       model.compile({ optimizer, loss: loss(state, targetMeta) });
-      setCachedModel(model);
-      return model.fit(xs, ys, { batchSize, epochs, validationSplit });
+      model.fit(xs, ys, { batchSize, epochs, validationSplit });
+      setCached(model);
+      return model;
     }
-    return rectify(state, cachedModel.predict(xs), targetMeta);
+    return rectify(state, cached.predict(xs), targetMeta);
   });
