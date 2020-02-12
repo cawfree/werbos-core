@@ -1,8 +1,8 @@
 {
   "id": "Za28j6s_78OReC4Apf6C_",
+  "activation": "relu",
   "targetActivation": "softmax",
   "typeDef": "[[String]]",
-  "activation": "relu",
   "loss": "categoricalCrossentropy",
   "metrics": ["accuracy"]
 }

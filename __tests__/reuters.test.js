@@ -5,7 +5,7 @@ import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
 import { typeCheck } from "type-check";
-import { justOnce, print, noop } from "rippleware";
+import { justOnce, noop } from "rippleware";
 
 import werbos, { files, oneHot, sequential, dense, train } from "../src";
 
@@ -30,11 +30,18 @@ it("should be capable of reuters newswire classification", () => {
     .use(/$.articles/)
     .use([onlyValidArticles()])
     .use([[/$.*.body/], [/$.*.topic/]])
-    .use([oneHot({ max: 512 })], oneHot())
+    .use(noop(), h =>
+      h("*", input => {
+        console.log("topics");
+        console.log(input);
+        return input;
+      })
+    )
+    .use([oneHot({ max: 10000 })], oneHot({ max: 46 }))
     .use(
       sequential()
-        .use(dense({ units: 512 }))
-        .use(dense({ units: 256 }))
+        .use(dense({ units: 64 }))
+        .use(dense({ units: 64, activation: "relu" }))
         .use(dense())
     )
     .use(train());
@@ -42,7 +49,7 @@ it("should be capable of reuters newswire classification", () => {
   app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json");
 
   console.log(
-    app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json"),
+    app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json")
   );
 
   expect(true).toBeTruthy();
