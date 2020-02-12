@@ -30,13 +30,6 @@ it("should be capable of reuters newswire classification", () => {
     .use(/$.articles/)
     .use([onlyValidArticles()])
     .use([[/$.*.body/], [/$.*.topic/]])
-    .use(noop(), h =>
-      h("*", input => {
-        console.log("topics");
-        console.log(input);
-        return input;
-      })
-    )
     .use([oneHot({ max: 10000 })], oneHot({ max: 46 }))
     .use(
       sequential()
