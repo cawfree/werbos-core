@@ -5,7 +5,7 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import { print } from "rippleware";
+import { justOnce, print } from "rippleware";
 
 import werbos, {
   files,

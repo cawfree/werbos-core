@@ -4,7 +4,6 @@ import compose from "rippleware";
 
 import createStore from "./createStore";
 
-export { justOnce } from "rippleware";
 export { dense } from "./layer";
 export { sequential } from "./network";
 export { train } from "./train";

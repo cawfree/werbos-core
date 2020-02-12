@@ -4,8 +4,9 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
+import { justOnce } from "rippleware";
+
 import werbos, {
-  justOnce,
   https,
   normalize,
   scalar,
