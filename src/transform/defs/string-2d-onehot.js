@@ -2,7 +2,7 @@ import { symbolize, oneHot } from "../model";
 
 const defaultOptions = Object.freeze({
   max: Number.POSITIVE_INFINITY,
-  exp: /(\w\w*)/g,
+  exp: /(\w\w*)/g
 });
 
 export default (opts = defaultOptions) => (inputs, { useState, useMeta }) => {

@@ -1,4 +1,4 @@
-import { tensor1d, sub, scalar, sign, relu } from '@tensorflow/tfjs';
+import { tensor1d, sub, scalar, sign, relu } from "@tensorflow/tfjs";
 import otsu from "otsu";
 
 import { reshape2d } from "../model";

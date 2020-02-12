@@ -55,7 +55,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
       dense({
         ...options,
         ...(firstLayer ? getInputProps(state, inputDef) : {}),
-        ...(targetLayer ? getTargetProps(state, targetDef) : {}),
+        ...(targetLayer ? getTargetProps(state, targetDef) : {})
       })
     );
 
