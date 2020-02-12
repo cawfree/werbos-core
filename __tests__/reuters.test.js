@@ -41,5 +41,9 @@ it("should be capable of reuters newswire classification", () => {
 
   app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json");
 
+  console.log(
+    app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json"),
+  );
+
   expect(true).toBeTruthy();
 });
