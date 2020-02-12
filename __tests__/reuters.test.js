@@ -27,8 +27,8 @@ it("should be capable of reuters newswire classification", () => {
     .use([onlyValidArticles()])
     .use([[/$.*.text.body/], [/$.*.topics/]])
     .use([noop()], [[noop()]])
-    .use(oneHot({ max: 256 }), noop())
-    .use(print(), noop());
+    .use(oneHot({ max: 256 }), noop()) // okay, how to multi class classification? (multihot?)
+    //.use(h => h('*', (_, { useMeta }) => console.log(JSON.stringify(useMeta())), noop()));
 
   app('/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json');
 
