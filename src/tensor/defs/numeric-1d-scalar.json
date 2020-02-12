@@ -1,5 +1,6 @@
 {
   "id": "yrMU4_1DHwoG2e2F5ZwCX",
+  "loss": "meanSquaredError",
   "typeDef": "[Number]",
   "metrics": ["mae"]
 }

@@ -5,6 +5,8 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
+import { print } from "rippleware";
+
 import werbos, {
   files,
   threshold,
@@ -20,15 +22,17 @@ it("should be capable of handwriting classification using the mnist dataset", ()
     .use(threshold(), oneHot())
     .use(
       sequential()
-        .use(dense({ units: 64 }))
+        .use(dense({ units: 512 }))
         .use(dense())
     )
-    .use(train());
+    .use(train({ epochs: 5, batchSize: 28 }));
 
-  app(
+  const trainingResults = app(
     "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
     "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
   );
+
+  console.log(trainingResults);
 
   const results = app(
     "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",

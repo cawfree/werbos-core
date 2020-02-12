@@ -42,7 +42,7 @@ it("should be capable of calculating regression using the boston dataset", () =>
         .use(dense({ units: 64 }))
         .use(dense())
     )
-    .use(train());
+    .use(train({ epochs: 100 }));
 
   const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"

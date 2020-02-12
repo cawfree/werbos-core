@@ -17,7 +17,8 @@ const getInputProps = (state, [tensor, tensorMeta]) => {
   const { activation } = model.get(typeDef);
   if (typeCheck("String", activation)) {
     const { shape } = tensor;
-    return { activation, inputShape: shape.slice(1) };
+    const inputShape = shape.slice(1);
+    return { activation, inputShape };
   }
   throw new Error(`Expected string activation, but encountered ${activation}.`);
 };
@@ -43,7 +44,7 @@ const getTargetProps = (state, [tensor, targetMeta]) => {
 export default (options = defaultOptions) => (handle, { getState }) =>
   handle(model(getState()), (model, { useGlobal, useMeta, useTopology }) => {
     const [index, length] = useTopology();
-    // XXX: The sequential() item will be the first entry in the middleware.
+
     const firstLayer = index === 1;
     const targetLayer = index === length - 1;
     const [inputDef, targetDef] = useMeta();
@@ -54,7 +55,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
       dense({
         ...options,
         ...(firstLayer ? getInputProps(state, inputDef) : {}),
-        ...(targetLayer ? getTargetProps(state, targetDef) : {})
+        ...(targetLayer ? getTargetProps(state, targetDef) : {}),
       })
     );
 

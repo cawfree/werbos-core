@@ -1,6 +1,8 @@
 {
   "id": "aNSO-fJeiHg3Z8xpkoXa8",
+  "activation": "relu",
   "targetActivation": "softmax",
   "typeDef": "[[Number]]",
-  "loss": "categoricalCrossentropy"
+  "loss": "categoricalCrossentropy",
+  "metrics": ["accuracy"]
 }

@@ -3,13 +3,11 @@ import { train } from "@tensorflow/tfjs";
 
 import { model } from "../../shape";
 
-const { rmsprop } = train;
-
 const defaultOptions = Object.freeze({
   batchSize: 128,
   epochs: 10,
   validationSplit: 0.0625,
-  optimizer: rmsprop(1e-2)
+  optimizer: train.rmsprop(1e-2)
 });
 
 const loss = (state, targetMeta) => {
@@ -49,6 +47,8 @@ const rectify = (state, ys, targetMeta) => {
 export default (options = defaultOptions) => (handle, { getState }) =>
   handle(model(getState()), (model, { useMeta, useState, useGlobal }) => {
     const { getState } = useGlobal();
+    // TODO: We need a proper architecture for this after the build level.
+    const [cachedModel, setCachedModel] = useState(null);
     const [trained, setTrained] = useState(false);
     const [[xs], [ys, targetMeta]] = useMeta();
     const state = getState();
@@ -59,7 +59,8 @@ export default (options = defaultOptions) => (handle, { getState }) =>
         ...options
       };
       model.compile({ optimizer, loss: loss(state, targetMeta) });
+      setCachedModel(model);
       return model.fit(xs, ys, { batchSize, epochs, validationSplit });
     }
-    return rectify(state, ys, targetMeta);
+    return rectify(state, cachedModel.predict(xs), targetMeta);
   });
