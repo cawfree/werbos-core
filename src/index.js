@@ -31,4 +31,4 @@ export const files = () => handle =>
     )
   ] && undefined;
 
-export default (options = { sync: true }) => compose(createStore, options);
+export default () => compose(createStore);

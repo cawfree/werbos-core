@@ -9,7 +9,9 @@ import { justOnce, noop } from "rippleware";
 
 import werbos, { files, oneHot, sequential, dense, train } from "../src";
 
-it("should be capable of reuters newswire classification", () => {
+jest.setTimeout(24 * 60 * 60 * 100);
+
+it("should be capable of reuters newswire classification", async () => {
   // XXX: Although an article can have multiple topics, for now we're only performing
   //      multiclass classification to find a single topic.
   const onlyValidArticles = () => handle =>
@@ -39,11 +41,12 @@ it("should be capable of reuters newswire classification", () => {
     )
     .use(train());
 
-  app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json");
+  await app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json");
 
   console.log(
-    app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json")
+    await app("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json")
   );
 
-  expect(true).toBeTruthy();
+  expect(true)
+    .toBeTruthy();
 });

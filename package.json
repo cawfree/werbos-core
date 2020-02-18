@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rm -rf dist ; cp -rf src dist ; babel dist --out-dir dist ; uglifyjs dist/*.js -o dist/*.js ; rm -rf node_modules",
+    "build": "yarn ; rm -rf dist ; cp -rf src dist ; babel dist --out-dir dist ; uglifyjs dist/*.js -o dist/*.js ; rm -rf node_modules",
     "prettify": "yarn prettier --write \"**/*.js\"",
     "test": "jest"
   },
@@ -31,7 +31,7 @@
     "otsu": "^0.0.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rippleware": "^0.0.21",
+    "rippleware": "^0.1.0-alpha.2",
     "stats-lite": "^2.2.0",
     "type-check": "^0.3.2"
   }

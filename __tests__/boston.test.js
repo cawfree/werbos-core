@@ -15,7 +15,9 @@ import werbos, {
   train
 } from "../src";
 
-it("should be capable of calculating regression using the boston dataset", () => {
+jest.setTimeout(24 * 60 * 60 * 100);
+
+it("should be capable of calculating regression using the boston dataset", async () => {
   const app = werbos()
     .use(justOnce(https()))
     .use([
@@ -45,11 +47,11 @@ it("should be capable of calculating regression using the boston dataset", () =>
     )
     .use(train({ epochs: 100 }));
 
-  const x = app(
+  const x = await app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
   );
 
-  const y = app([
+  const y = await app([
     {
       crim: 0.06905,
       zn: 0,

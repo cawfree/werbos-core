@@ -9,7 +9,9 @@ import { justOnce } from "rippleware";
 
 import werbos, { https, oneHot, sequential, dense, train } from "../src";
 
-it("should be capable of calculating imdb review sentiment", () => {
+jest.setTimeout(24 * 60 * 60 * 1000);
+
+it("should be capable of calculating imdb review sentiment", async () => {
   const app = werbos()
     .use(justOnce(https()))
     .use([[/$.*.t/], [/$.*.s/]])
@@ -22,9 +24,9 @@ it("should be capable of calculating imdb review sentiment", () => {
     )
     .use(train());
 
-  app("https://github.com/nas5w/imdb-data/raw/master/reviews.json");
+  await app("https://github.com/nas5w/imdb-data/raw/master/reviews.json");
 
-  const results = app([
+  const results = await app([
     {
       t:
         "This movie was totally and utterly crap. What a waste of time. I will never watch this again.",
