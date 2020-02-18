@@ -5,7 +5,7 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import { justOnce, print } from "rippleware";
+import { justOnce, print, noop } from "rippleware";
 
 import werbos, {
   files,
@@ -21,7 +21,8 @@ jest.setTimeout(24 * 60 * 60 * 100);
 it("should be capable of handwriting classification using the mnist dataset", async () => {
   const app = werbos()
     .use(files())
-    .use(threshold(), oneHot())
+    //.use(noop(), oneHot())
+    .use(threshold(), noop())
     .use(
       sequential()
         .use(dense({ units: 512 }))
@@ -33,8 +34,6 @@ it("should be capable of handwriting classification using the mnist dataset", as
     "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
     "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
   );
-
-  console.log(trainingResults);
 
   const results = await app(
     "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
