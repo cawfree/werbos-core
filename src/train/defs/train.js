@@ -58,9 +58,8 @@ export default (options = defaultOptions) => (handle, { getState }) =>
         ...options
       };
       model.compile({ optimizer, loss: loss(state, targetMeta) });
-      model.fit(xs, ys, { batchSize, epochs, validationSplit });
       setCached(model);
-      return model;
+      return model.fit(xs, ys, { batchSize, epochs, validationSplit });
     }
     return rectify(state, cached.predict(xs), targetMeta);
   });

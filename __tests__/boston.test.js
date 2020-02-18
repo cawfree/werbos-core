@@ -45,6 +45,8 @@ it("should be capable of calculating regression using the boston dataset", () =>
     )
     .use(train({ epochs: 100 }));
 
+  console.log('allocated...');
+
   const x = app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
   );
