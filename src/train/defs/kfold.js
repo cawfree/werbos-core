@@ -24,7 +24,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
       optimizer,
       batchSize,
       epochs,
-    } = options;
+    } = { ...defaultOptions, ...options };
     // TODO: throw on bad k
     const { getState } = useGlobal();
     const [[xs], [ys, targetMeta]] = useMeta();
