@@ -6,7 +6,7 @@ import createStore from "./createStore";
 
 export { dense } from "./layer";
 export { sequential } from "./network";
-export { train } from "./train";
+export { train, kfold } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";
 
 export const https = () => handle =>
