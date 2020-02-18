@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "yarn ; rm -rf dist ; cp -rf src dist ; babel dist --out-dir dist ; uglifyjs dist/*.js -o dist/*.js ; rm -rf node_modules",
+    "build": "yarn ; rm -rf dist ; cp -rf src dist ; babel dist --out-dir dist ; rm -rf node_modules",
     "prettify": "yarn prettier --write \"**/*.js\"",
     "test": "jest"
   },
@@ -21,8 +21,7 @@
     "@tensorflow/tfjs-node": "1.5.2",
     "husky": "^4.2.1",
     "jest": "^25.1.0",
-    "prettier": "^1.19.1",
-    "uglify-js": "^3.7.6"
+    "prettier": "^1.19.1"
   },
   "dependencies": {
     "@tensorflow/tfjs": "1.5.2",
