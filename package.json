@@ -27,6 +27,7 @@
     "@tensorflow/tfjs": "1.5.2",
     "axios": "^0.19.2",
     "immutable": "^4.0.0-rc.12",
+    "nanoid": "^2.1.11",
     "otsu": "^0.0.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

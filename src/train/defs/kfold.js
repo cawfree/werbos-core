@@ -12,6 +12,7 @@ const defaultOptions = Object.freeze({
   optimizer: train.rmsprop(1e-2),
   batchSize: 64,
   epochs: 10,
+  shuffle: false,
 });
 
 export default (options = defaultOptions) => (handle, { getState }) =>
@@ -21,6 +22,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
       optimizer,
       batchSize,
       epochs,
+      shuffle,
     } = { ...defaultOptions, ...options };
 
     if (!Number.isInteger(k) || k < 2) {
@@ -31,6 +33,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
     const state = getState();
 
     const [[xs], [ys, targetMeta]] = useMeta();
+
     const [cached, setCached] = useState(null);
 
     if (!cached) {
@@ -72,6 +75,7 @@ export default (options = defaultOptions) => (handle, { getState }) =>
                       {
                         batchSize,
                         epochs,
+                        shuffle,
                         validationData: [xv, yv],
                       },
                     );

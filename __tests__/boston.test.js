@@ -45,13 +45,11 @@ it("should be capable of calculating regression using the boston dataset", async
         .use(dense({ units: 64 }))
         .use(dense())
     )
-    .use(kfold());
+    .use(kfold({ batchSize: 32, epochs: 25, shuffle: true }));
 
   const x = await app(
     "https://raw.githubusercontent.com/cawfree/boston-housing-dataset/master/data.json"
   );
-
-  console.log(x);
 
   const y = await app([
     {
