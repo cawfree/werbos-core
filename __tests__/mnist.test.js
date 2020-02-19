@@ -4,6 +4,7 @@
 
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
+import { regularizers } from "@tensorflow/tfjs";
 
 import { justOnce, print, noop } from "rippleware";
 
@@ -25,7 +26,11 @@ it("should be capable of handwriting classification using the mnist dataset", as
     .use(threshold(), noop())
     .use(
       sequential()
-        .use(dense({ units: 512 }))
+        .use(dense({
+          units: 512,
+          // TODO: Need some serializable representation of l1l2. (dense kernel weights matrix)
+          kernelRegularizer: regularizers.l1l2(),
+        }))
         .use(dense())
     )
     .use(train({ epochs: 5, batchSize: 28 }));
