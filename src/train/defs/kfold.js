@@ -12,7 +12,7 @@ const defaultOptions = Object.freeze({
   optimizer: train.rmsprop(1e-2),
   batchSize: 64,
   epochs: 10,
-  shuffle: false,
+  //shuffle: false,
 });
 
 export default (options = defaultOptions) => (handle, { getState }) =>

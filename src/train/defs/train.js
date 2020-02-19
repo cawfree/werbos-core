@@ -8,7 +8,7 @@ const defaultOptions = Object.freeze({
   epochs: 10,
   validationSplit: 0.0625,
   optimizer: train.rmsprop(1e-2),
-  shuffle: false,
+  //shuffle: false,
 });
 
 export default (options = defaultOptions) => (handle, { getState }) =>

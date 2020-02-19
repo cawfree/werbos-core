@@ -7,22 +7,25 @@ import "@tensorflow/tfjs-node";
 
 import { justOnce } from "rippleware";
 
-import werbos, { https, oneHot, sequential, dense, train } from "../src";
+import werbos, { https, oneHot, sequential, dense, dropout, train } from "../src";
 
 jest.setTimeout(24 * 60 * 60 * 1000);
 
 it("should be capable of calculating imdb review sentiment", async () => {
   const app = werbos()
     .use(justOnce(https()))
+    //.use((https()))
     .use([[/$.*.t/], [/$.*.s/]])
     .use(oneHot({ max: 512 }), oneHot())
     .use(
       sequential()
-        .use(dense({ units: 128 }))
-        .use(dense({ units: 64 }))
+        .use(dense({ units: 16 }))
+        .use(dropout())
+        .use(dense({ units: 16, activation: 'relu' }))
+        .use(dropout())
         .use(dense())
     )
-    .use(train());
+    .use(train({ epochs: 20, batchSize: 512 }));
 
   await app("https://github.com/nas5w/imdb-data/raw/master/reviews.json");
 
@@ -40,6 +43,8 @@ it("should be capable of calculating imdb review sentiment", async () => {
   ]);
 
   console.log(results);
+
+  //console.log(results);
 
   expect(true).toBeTruthy();
 });
