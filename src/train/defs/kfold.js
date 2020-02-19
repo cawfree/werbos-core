@@ -1,11 +1,10 @@
-//import { typeCheck } from "type-check";
-import { train } from "@tensorflow/tfjs";
-import { slice, split, concat } from "@tensorflow/tfjs";
+import { train, layers, slice, split, concat } from "@tensorflow/tfjs";
 import { model as clone } from "tfjs-clone";
 
-//import { loss, rectify } from "../model";
-import { loss } from "../model";
+import { loss, rectify } from "../model";
 import { model } from "../../shape";
+
+const { average } = layers;
 
 // TODO: use random, etc
 const defaultOptions = Object.freeze({
@@ -27,8 +26,10 @@ export default (options = defaultOptions) => (handle, { getState }) =>
     if (!Number.isInteger(k) || k < 2) {
       return Promise.reject(new Error(`Expected positive integer k, but encountered ${k}.`));
     }
-
+    
     const { getState } = useGlobal();
+    const state = getState();
+
     const [[xs], [ys, targetMeta]] = useMeta();
     const [cached, setCached] = useState(null);
 
@@ -43,8 +44,6 @@ export default (options = defaultOptions) => (handle, { getState }) =>
 
       const xsss = split(xss, k);
       const ysss = split(yss, k);
-
-      const state = getState();
 
       return Promise
         .all(
@@ -85,9 +84,6 @@ export default (options = defaultOptions) => (handle, { getState }) =>
     // XXX: All models can predict the input data directly without segmentation.
     return Promise
       .all(cached.map(model => Promise.resolve(model.predict(xs))))
-      .then(
-        (results) => {
-          return results;
-        },
-      );
+      .then(results => average().apply(results))
+      .then(result => rectify(state, result, targetMeta));
   });

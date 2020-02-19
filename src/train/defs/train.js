@@ -1,4 +1,3 @@
-import { typeCheck } from "type-check";
 import { train } from "@tensorflow/tfjs";
 
 import { model } from "../../shape";
