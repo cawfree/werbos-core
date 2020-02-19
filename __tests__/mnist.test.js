@@ -22,14 +22,13 @@ jest.setTimeout(24 * 60 * 60 * 100);
 it("should be capable of handwriting classification using the mnist dataset", async () => {
   const app = werbos()
     .use(files())
-    //.use(noop(), oneHot())
-    .use(threshold(), noop())
+    .use(threshold(), oneHot())
     .use(
       sequential()
         .use(dense({
           units: 512,
           // TODO: Need some serializable representation of l1l2. (dense kernel weights matrix)
-          kernelRegularizer: regularizers.l1l2(),
+          kernelRegularization: regularizers.l2({ l2: 0.001 }),
         }))
         .use(dense())
     )
