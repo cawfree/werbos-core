@@ -18,15 +18,15 @@ const defaultTensor = Object.freeze({});
 export const shuffle = () => handle => handle(
   // TODO: use tensor shape
   '[*]', ([...tensors], { useMeta }) => {
+    useMeta(useMeta());
     const shapes = tensors
       .map(({ shape: [len] }) => len);
     if (Math.max(...shapes) === Math.min(...shapes)) {
-      useMeta(useMeta());
       const [shape] = shapes;
       const idx = tensor1d(new Int32Array(createShuffledIndices(shape)));
       return tensors.map(t => t.gather(idx));
     }
-    throw new Error("It is not possible to shuffle tenso");
+    throw new Error("It is not possible to shuffle tensors of different sizes.");
   },
 );
 
