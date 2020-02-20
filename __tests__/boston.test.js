@@ -13,7 +13,6 @@ import werbos, {
   sequential,
   dense,
   kfold,
-  shuffle,
 } from "../src";
 
 jest.setTimeout(24 * 60 * 60 * 100);
