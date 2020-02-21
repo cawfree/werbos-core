@@ -43,7 +43,5 @@ it("should be capable of calculating imdb review sentiment", async () => {
 
   console.log(results);
 
-  //console.log(results);
-
   expect(true).toBeTruthy();
 });

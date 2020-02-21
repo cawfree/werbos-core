@@ -13,7 +13,7 @@ jest.setTimeout(24 * 60 * 60 * 100);
 
 it("should be capable of reuters newswire classification", async () => {
   // XXX: Although an article can have multiple topics, for now we're only performing
-  //      multiclass classification to find a single topic.
+  //      multiclass classification single-label evaluation.
   const onlyValidArticles = () => handle =>
     handle("[*]", articles =>
       articles
