@@ -21,8 +21,8 @@ jest.setTimeout(24 * 60 * 60 * 100);
 
 it("should be capable of handwriting classification using the mnist dataset", async () => {
   const app = werbos()
-    .use(files())
-    .use(threshold(), oneHot())
+    .use(files(), files())
+    .mix(threshold(), oneHot())
     .use(
       sequential()
         .use(dense({
@@ -43,8 +43,6 @@ it("should be capable of handwriting classification using the mnist dataset", as
     "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
     "/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json"
   );
-
-  console.log(results);
 
   expect(true)
     .toBeTruthy();
