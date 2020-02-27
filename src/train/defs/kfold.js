@@ -16,7 +16,7 @@ const defaultOptions = Object.freeze({
   //shuffle: false,
 });
 
-const kfold = options => (input, { useMeta, useState, useGlobal }) => {
+const kfold = options => (model, { useMeta, useState, useGlobal }) => {
   const {
     k,
     optimizer,
