@@ -41,43 +41,10 @@ it("should be capable of calculating regression using the boston dataset", async
         [/$.*.medv/],
       ],
     )
+    .use(normalize(), scalar()) // TODO: need a "mix"
     .use(
-      normalize(),
-      scalar(),
+      sequential(),
     );
-    //.use(
-    //  [
-    //    (i) => console.log('f',i),
-    //    (i) => console.log('sec',i),
-    //  ],
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //  //scalar(),
-    //);
-    //.use(
-    //  [
-    //    normalize(),
-    //  ],
-    //  //scalar(),
-    //)
-    //.use(
-    //  sequential()
-    //    //.use(dense({ units: 64 }))
-    //    //.use(dense({ units: 64 }))
-    //    //.use(dense())
-    //);
-
     //.use([
     //  [
     //    /$.*.crim/,
