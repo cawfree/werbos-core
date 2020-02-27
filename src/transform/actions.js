@@ -1,3 +1,4 @@
+import { pre } from "rippleware";
 import { typeCheck } from "type-check";
 
 import { getTransform } from "./model";
@@ -47,21 +48,32 @@ const wrap = (tensor, transform, opts) => (
   return useMeta({}) || transform(opts)(input, { ...extras, useMeta });
 };
 
-const useTransform = (handle, { getState }, opts, ids) =>
-  ids.map(id => {
-    const { tensor, transform } = getState();
-    const { typeDef } = tensor.get(id);
-    return handle(typeDef, wrap(id, transform.get(id), opts));
-  });
+// [
+//   {
+//     loss: 'meanSquaredError',
+//     typeDef: '[[Number]]',
+//     metrics: [Array]
+//   },
+//   [Function]
+// ]
 
-export const oneHot = opts => (handle, store) =>
-  useTransform(handle, store, opts, [n2do.id, s2do.id]);
-export const normalize = opts => (handle, store) =>
-  useTransform(handle, store, opts, [n1dn.id, n2dn.id]);
-export const scalar = opts => (handle, store) =>
-  useTransform(handle, store, opts, [n1ds.id, n2ds.id]);
-export const threshold = opts => (handle, store) =>
-  useTransform(handle, store, opts, [n2dt.id]);
+const useTransform = (opts, ids) => pre(
+  ({ useGlobal }) => {
+    const { getState } = useGlobal();
+    const { tensor, transform } = getState();
+    return ids.map(
+      (id) => {
+        const { typeDef } = tensor.get(id);
+        return [typeDef, wrap(id, transform.get(id), opts)];
+      },
+    );
+  },
+);
+
+export const oneHot = opts => useTransform(opts, [n2do.id, s2do.id]);
+export const normalize = opts => useTransform(opts, [n1dn.id, n2dn.id]);
+export const scalar = opts => useTransform(opts, [n1ds.id, n2ds.id]);
+export const threshold = opts => useTransform(opts, [n2dt.id]);
 
 export const build = () => (dispatch, getState) => {
   dispatch(

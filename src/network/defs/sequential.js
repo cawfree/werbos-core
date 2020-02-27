@@ -1,5 +1,5 @@
+import compose, { pre } from "rippleware";
 import { sequential } from "@tensorflow/tfjs";
-import compose from "rippleware";
 
 import { stimuli } from "../../shape";
 
@@ -19,11 +19,14 @@ const mergeMeta = (stimuli, meta) => {
   ]);
 };
 
-export default () =>
-  compose().use((handle, { getState }) =>
-    handle(
-      stimuli(getState()),
-      (stimuli, { useGlobal, useMeta }) =>
-        useMeta(mergeMeta(stimuli, useMeta())) || sequential()
-    )
+const createSequential = () => (stimuli, { useGlobal, useMeta }) => useMeta(mergeMeta(stimuli, useMeta())) || sequential();
+
+export default () => compose()
+  .pre(
+    ({ useGlobal }) => {
+      const { getState } = useGlobal();
+      return [
+        [stimuli(getState()), createSequential()],
+      ];
+    },
   );

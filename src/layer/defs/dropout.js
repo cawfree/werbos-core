@@ -1,5 +1,6 @@
-import { typeCheck } from "type-check";
 import { layers } from "@tensorflow/tfjs";
+import { typeCheck } from "type-check";
+import { pre } from "rippleware";
 
 import { model } from "../../shape";
 
@@ -9,13 +10,18 @@ const defaultOptions = Object.freeze({
   // TODO: what defaults are safe to use?
 });
 
-export default (options = defaultOptions) => (handle, { getState }) =>
-  handle(model(getState()), (model, { useGlobal, useMeta, useTopology }) => {
-    model.add(
-      dropout({...defaultOptions, ...options }),
-    );
+const createDropout = options => (model, { useGlobal, useMeta, useTopology }) => {
+  model.add(
+    dropout({...defaultOptions, ...options }),
+  );
+  return model;
+}
 
-    useMeta(useMeta());
-
-    return model;
-  });
+export default (options = defaultOptions) => pre(
+  ({ useGlobal }) => {
+    const { getState } = useGlobal();
+    return [
+      [model(getState()), createDropout(options)],
+    ];
+  },
+);

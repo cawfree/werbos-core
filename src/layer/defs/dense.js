@@ -1,5 +1,6 @@
-import { typeCheck } from "type-check";
 import { layers } from "@tensorflow/tfjs";
+import { typeCheck } from "type-check";
+import { pre } from "rippleware";
 
 import { model } from "../../shape";
 
@@ -41,26 +42,33 @@ const getTargetProps = (state, [tensor, targetMeta]) => {
   return { units };
 };
 
-export default (options = defaultOptions) => (handle, { getState }) =>
-  handle(model(getState()), (model, { useGlobal, useMeta, useTopology }) => {
-    const [index, length] = useTopology();
+const createDense = options => (model, { useGlobal, useMeta, useTopology }) => {
+  const [index, length] = useTopology();
 
-    const firstLayer = index === 1;
-    const targetLayer = index === length - 1;
-    const [inputDef, targetDef] = useMeta();
+  const firstLayer = index === 1;
+  const targetLayer = index === length - 1;
+  const [inputDef, targetDef] = useMeta();
+  const { getState } = useGlobal();
+  const state = getState();
+
+  model.add(
+    dense({
+      ...options,
+      ...(firstLayer ? getInputProps(state, inputDef) : {}),
+      ...((!(firstLayer || targetLayer)) ? {} : {}),
+      ...(targetLayer ? getTargetProps(state, targetDef) : {}),
+    })
+  );
+
+  return model;
+};
+
+export default (options = defaultOptions) => pre(
+  ({ useGlobal }) => {
     const { getState } = useGlobal();
     const state = getState();
-
-    model.add(
-      dense({
-        ...options,
-        ...(firstLayer ? getInputProps(state, inputDef) : {}),
-        ...((!(firstLayer || targetLayer)) ? {} : {}),
-        ...(targetLayer ? getTargetProps(state, targetDef) : {}),
-      })
-    );
-
-    useMeta(useMeta());
-
-    return model;
-  });
+    return [
+      [model(getState()), createDense(options)],
+    ];
+  },
+);
