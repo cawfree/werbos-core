@@ -28,7 +28,7 @@ it("should be capable of reuters newswire classification", async () => {
             typeof body === "string" &&
             body.length > 0
         )
-        .map(({ text: { body }, topics }) => ({ topic: topics[0], body }))
+        .map(({ text: { body }, topics }) => ({ topic: topics[0], body })),
     )
     .sep([[/$.*.*.body/], [/$.*.*.topic/]])
     .mix(oneHot({ max: 10000 }), oneHot({ max: 46 }))
