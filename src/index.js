@@ -1,8 +1,9 @@
 import axios from "axios";
 import fs from "fs";
-import compose from "rippleware";
+import compose, { pre } from "rippleware";
 
 import createStore from "./createStore";
+import { initialMeta } from "./meta";
 
 export { dense, dropout } from "./layer";
 export { sequential } from "./network";
@@ -26,4 +27,11 @@ export const files = () => [
   ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
 ];
 
-export default () => compose(createStore);
+export default () => compose(createStore)
+  .all(pre(initialMeta()))
+  .all(
+    (input, { useMeta }) => {
+      console.log(useMeta());
+      return input;
+    },
+  );

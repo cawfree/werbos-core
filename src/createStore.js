@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import { reducer as layer, build as layers } from "./layer";
+import { reducer as meta, build as metas } from "./meta";
 import { reducer as network, build as networks } from "./network";
 import { reducer as rectify, build as rectifiers } from "./rectify";
 import { reducer as shape, build as shapes } from "./shape";
@@ -13,6 +14,7 @@ export default () => {
   const store = createStore(
     combineReducers({
       layer,
+      meta,
       network,
       rectify,
       shape,
@@ -26,6 +28,7 @@ export default () => {
   const { dispatch } = store;
 
   dispatch(layers());
+  dispatch(metas());
   dispatch(shapes());
   dispatch(tensors());
   dispatch(training());
