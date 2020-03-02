@@ -30,7 +30,6 @@ const receiveTransform = (id, func) => (dispatch, getState) => {
 
 const useTensorMeta = (id, useMeta) => (...args) => {
   const meta = useMeta();
-  console.log('meta is',meta);
   const { [tensorMeta]: tensorMetadata } = meta;
   if (args.length === 0) {
     return meta;
@@ -41,17 +40,15 @@ const useTensorMeta = (id, useMeta) => (...args) => {
   if (!typeCheck("Object", arg)) {
     throw new Error(`Expected [object Object], encountered ${arg}.`);
   }
-  const x = {
+  return useMeta(
+    {
       ...meta,
       [tensorMeta]: {
         ...tensorMetadata,
         ...arg,
         id,
       },
-    };
-  console.log('x is',x);
-  return useMeta(
-    x,
+    }
   );
 };
 

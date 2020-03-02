@@ -42,8 +42,6 @@ const kfold = options => (model, { useMeta, useState, useGlobal }) => {
 
   const targetMeta = b[tensorMeta];
 
-  //const [[xs], [ys, targetMeta]] = useMeta();
-
   const [cached, setCached] = useState(null);
 
   if (!cached) {
