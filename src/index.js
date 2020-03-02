@@ -6,6 +6,7 @@ import createStore from "./createStore";
 import { initialMeta } from "./meta";
 
 export { dense, dropout } from "./layer";
+export { Meta } from "./meta";
 export { sequential } from "./network";
 export { train, kfold } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";
