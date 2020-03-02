@@ -2,7 +2,7 @@ import { typeCheck } from "type-check";
 import { Map } from "immutable";
 
 export const loss = (state, targetMeta) => {
-  const { tensor: typeDef } = targetMeta;
+  const { id: typeDef } = targetMeta;
   if (!typeCheck("String", typeDef)) {
     throw new Error(
       `Expected tensor type definition, but encountered ${typeDef}.`
@@ -20,7 +20,7 @@ export const loss = (state, targetMeta) => {
 
 export const rectify = (state, ys, targetMeta) => {
   const { rectify } = state;
-  const { tensor: typeDef } = targetMeta;
+  const { id: typeDef } = targetMeta;
   if (!typeCheck("String", typeDef)) {
     throw new Error(
       `Expected tensor type definition, but encountered ${typeDef}.`

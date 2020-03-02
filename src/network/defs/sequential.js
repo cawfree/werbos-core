@@ -1,26 +1,20 @@
 import compose, { pre } from "rippleware";
 import { sequential } from "@tensorflow/tfjs";
 
+import { id as stimuliMeta } from "../../meta/defs/stimuli";
 import { stimuli } from "../../shape";
 
-const mergeMeta = (stimuli, meta) => {
-  if (!Array.isArray(stimuli)) {
-    throw new Error(`Expected array of stimuli, but encountered ${stimuli}.`);
-  } else if (!Array.isArray(meta)) {
-    throw new Error(`Expected array of meta, but encountered ${meta}.`);
-  } else if (stimuli.length !== meta.length) {
-    throw new Error(
-      `Expected matching stimuli and meta length, but found ${stimuli.length}, ${meta.length}.`
-    );
-  }
-  return [...Array(Math.max(stimuli.length, meta.length))].map((_, i) => [
-    stimuli[i],
-    meta[i]
-  ]);
+const createSequential = () => (stimuli, { useGlobal, useMeta }) => {
+  //  // TODO: Should add some sanity checking about this.
+  const [a, b] = useMeta();
+  const [sa, sb] = stimuli;
+  useMeta(
+    [{ ...a, [stimuliMeta]: sa }, { ...b, [stimuliMeta]: sb }],
+  );
+  return sequential();
 };
 
-const createSequential = () => (stimuli, { useGlobal, useMeta }) => useMeta(mergeMeta(stimuli, useMeta())) || sequential();
-
+// TODO: Need to add a hook to nest operation. (moize -> based on supplied meta!)
 export default () => compose()
   .pre(
     ({ useGlobal }) => {

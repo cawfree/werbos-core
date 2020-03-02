@@ -22,27 +22,33 @@ jest.setTimeout(24 * 60 * 60 * 100);
 it("should be capable of handwriting classification using the mnist dataset", async () => {
   const app = werbos()
     .use(files(), files())
-    .mix(threshold(), oneHot())
-    .use(
-      sequential()
-        .use(dense({
-          units: 512,
-          // TODO: Need some serializable representation of l1l2. (dense kernel weights matrix)
-          kernelRegularization: regularizers.l2({ l2: 0.001 }),
-        }))
-        .use(dense())
-    )
-    .use(train({ epochs: 5, batchSize: 28 }));
+    .all(
+      (_, { useMeta }) => {
+        console.log(useMeta());
+        return null;
+      },
+    );
+    //.mix(threshold(), oneHot())
+    //.use(
+    //  sequential()
+    //    .use(dense({
+    //      units: 512,
+    //      // TODO: Need some serializable representation of l1l2. (dense kernel weights matrix)
+    //      kernelRegularization: regularizers.l2({ l2: 0.001 }),
+    //    }))
+    //    .use(dense())
+    //)
+    //.use(train({ epochs: 5, batchSize: 28 }));
 
   const trainingResults = await app(
     "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
     "/home/cawfree/Development/mnist-dataset/public/train-labels-idx1-ubyte.json"
   );
 
-  const results = await app(
-    "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
-    "/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json"
-  );
+  //const results = await app(
+  //  "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
+  //  "/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json"
+  //);
 
   expect(true)
     .toBeTruthy();

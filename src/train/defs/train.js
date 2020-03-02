@@ -4,6 +4,9 @@ import { pre } from "rippleware";
 import { model } from "../../shape";
 import { loss, rectify } from "../model";
 
+import { id as tensorMeta } from "../../meta/defs/tensor";
+import { id as stimuliMeta } from "../../meta/defs/stimuli";
+
 const defaultOptions = Object.freeze({
   batchSize: 128,
   epochs: 10,
@@ -17,7 +20,14 @@ const shouldTrain = options => (model, { useMeta, useState, useGlobal }) => {
   // TODO: We need a proper architecture for this after the build level.
   //       At the moment, we just keep re-recreating networks uselessly.
   const [cached, setCached] = useState(null);
-  const [[xs], [ys, targetMeta]] = useMeta();
+
+  const [a, b] = useMeta();
+
+  const xs = a[stimuliMeta];
+  const ys = b[stimuliMeta];
+
+  const targetMeta = b[tensorMeta];
+
   const state = getState();
   if (!cached) {
     const { batchSize, epochs, optimizer, validationSplit, shuffle } = {

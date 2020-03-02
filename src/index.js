@@ -28,10 +28,4 @@ export const files = () => [
 ];
 
 export default () => compose(createStore)
-  .all(pre(initialMeta()))
-  .all(
-    (input, { useMeta }) => {
-      console.log(useMeta());
-      return input;
-    },
-  );
+  .all(pre(initialMeta()));

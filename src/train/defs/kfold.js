@@ -5,6 +5,9 @@ import { pre } from "rippleware";
 import { loss, rectify } from "../model";
 import { model } from "../../shape";
 
+import { id as tensorMeta } from "../../meta/defs/tensor";
+import { id as stimuliMeta } from "../../meta/defs/stimuli";
+
 const { average } = layers;
 
 // TODO: use random, etc
@@ -32,7 +35,14 @@ const kfold = options => (model, { useMeta, useState, useGlobal }) => {
   const { getState } = useGlobal();
   const state = getState();
 
-  const [[xs], [ys, targetMeta]] = useMeta();
+  const [a, b] = useMeta();
+
+  const xs = a[stimuliMeta];
+  const ys = b[stimuliMeta];
+
+  const targetMeta = b[tensorMeta];
+
+  //const [[xs], [ys, targetMeta]] = useMeta();
 
   const [cached, setCached] = useState(null);
 
