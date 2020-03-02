@@ -31,7 +31,7 @@
     "otsu": "^0.0.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rippleware": "^0.2.0-alpha.8",
+    "rippleware": "^0.2.0-alpha.11",
     "stats-lite": "^2.2.0",
     "tfjs-clone": "^0.0.1",
     "type-check": "^0.3.2"
