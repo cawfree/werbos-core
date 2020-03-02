@@ -36,11 +36,8 @@ const kfold = options => (model, { useMeta, useState, useGlobal }) => {
   const state = getState();
 
   const [a, b] = useMeta();
-
-  const xs = a[stimuliMeta];
-  const ys = b[stimuliMeta];
-
-  const targetMeta = b[tensorMeta];
+  const { [stimuliMeta]: xs } = a;
+  const { [stimuliMeta]: ys, [tensorMeta]: targetMeta } = b;
 
   const [cached, setCached] = useState(null);
 

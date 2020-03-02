@@ -20,13 +20,10 @@ const shouldTrain = options => (model, { useMeta, useState, useGlobal }) => {
   // TODO: We need a proper architecture for this after the build level.
   //       At the moment, we just keep re-recreating networks uselessly.
   const [cached, setCached] = useState(null);
-
+  
   const [a, b] = useMeta();
-
-  const xs = a[stimuliMeta];
-  const ys = b[stimuliMeta];
-
-  const targetMeta = b[tensorMeta];
+  const { [stimuliMeta]: xs } = a;
+  const { [stimuliMeta]: ys, [tensorMeta]: targetMeta } = b;
 
   const state = getState();
   if (!cached) {
