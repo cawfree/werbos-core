@@ -1,6 +1,8 @@
 import { pre } from "rippleware";
 import { typeCheck } from "type-check";
 
+import { id as tensorMeta } from "../meta/defs/tensor";
+
 import { getTransform } from "./model";
 import { RECEIVE_TRANSFORM } from "./actionTypes";
 
@@ -26,36 +28,30 @@ const receiveTransform = (id, func) => (dispatch, getState) => {
   });
 };
 
-const wrap = (tensor, transform, opts) => (
-  input,
-  { useMeta: useVanilla, ...extras }
-) => {
-  const useMeta = (...args) => {
-    const [obj] = args;
-    if (args.length === 0) {
-      return useVanilla();
-    } else if (args.length === 1 && typeCheck("Object", obj)) {
-      if (obj.hasOwnProperty("tensor")) {
-        throw new Error('The property "tensor" is reserved.');
-      }
-      return useVanilla({ ...obj, tensor });
-    }
-    throw new Error(
-      "A call to useMeta must contain a single argument object, or undefined."
-    );
-  };
-  // XXX: Ensures that at the very minimum, a transform defines the input tensor.
-  return useMeta({}) || transform(opts)(input, { ...extras, useMeta });
+const useTensorMeta = (id, useMeta) => (...args) => {
+  const meta = useMeta();
+  console.log(meta,'vs', tensorMeta);
+  const { [tensorMeta]: tensorMetadata } = meta;
+  if (args.length === 0) {
+    return meta;
+  } else if (args.length > 1) {
+    throw new Error(`useMeta() expected a single argument, but was passed ${args.length} arguments.`);
+  }
+  const [arg] = args;
+  if (!typeCheck("Object", arg)) {
+    throw new Error(`Expected [object Object], encountered ${arg}.`);
+  }
+  return useMeta(
+    {
+      ...meta,
+      [tensorMeta]: {
+        ...tensorMetadata,
+        ...arg,
+        id,
+      },
+    },
+  );
 };
-
-// [
-//   {
-//     loss: 'meanSquaredError',
-//     typeDef: '[[Number]]',
-//     metrics: [Array]
-//   },
-//   [Function]
-// ]
 
 const useTransform = (opts, ids) => pre(
   ({ useGlobal }) => {
@@ -64,7 +60,14 @@ const useTransform = (opts, ids) => pre(
     return ids.map(
       (id) => {
         const { typeDef } = tensor.get(id);
-        return [typeDef, wrap(id, transform.get(id), opts)];
+        return [
+          typeDef,
+          (input, { useMeta, ...extras }) => {
+            const useTensor = useTensorMeta(id, useMeta);
+            // XXX: Ensure that at the bare minimum, required tensor information is persisted.
+            return useTensor({}) || transform.get(id)(opts)(input, { ...extras, useTensor });
+          },
+        ];
       },
     );
   },

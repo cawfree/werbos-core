@@ -1,5 +1,7 @@
 import { typeCheck } from "type-check";
 
+import { id as tensorMeta } from "./defs/tensor";
+
 import { RECEIVE_META } from "./actionTypes";
 
 const receiveMeta = id => (dispatch, getState) => {
@@ -16,5 +18,5 @@ const receiveMeta = id => (dispatch, getState) => {
 };
 
 export const build = () => (dispatch, getState) => {
-
+  dispatch(receiveMeta(tensorMeta));
 };
