@@ -32,6 +32,13 @@ const appendMeta = (useMeta, typeDef, layerParams) => {
   );
 };
 
+const readOnly = useMeta => (...args) => {
+  if (args.length > 0) {
+    throw new Error(`A layer attempted to write using useMeta(), but this operation is not permitted.`);
+  }
+  return useMeta(...args);
+};
+
 const useLayer = (id, withOptions) => pre(
   ({ useGlobal }) => {
     const { getState } = useGlobal();
@@ -45,12 +52,11 @@ const useLayer = (id, withOptions) => pre(
     return [
       [
         modelShape(state), 
-        (model, { ...hooks }) => Promise
+        (model, { useMeta, ...extraHooks }) => Promise
           .resolve()
-          .then(() => layerMiddleware(withOptions)(model, { ...hooks }))
+          .then(() => layerMiddleware(withOptions)(model, { useMeta: readOnly(useMeta), ...extraHooks }))
           .then(
             (layerParams) => {
-              const { useMeta } = hooks;
               if (!typeCheck("{...}", layerParams)) {
                 throw new Error(`Expected [object Object] layerParams, encountered ${layerParams}.`);
               }

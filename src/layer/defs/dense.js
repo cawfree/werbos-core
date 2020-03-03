@@ -40,7 +40,6 @@ const getTargetProps = (state, meta) => {
   return { units };
 };
 
-// TODO: Enforce read-only useMeta.
 export default (options = defaultOptions) => (model, { useGlobal, useMeta, useTopology }) => {
   const [index, length] = useTopology();
   const firstLayer = index === 1;
