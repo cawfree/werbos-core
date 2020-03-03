@@ -1,13 +1,10 @@
-import { layers } from "@tensorflow/tfjs";
 import { typeCheck } from "type-check";
-import { pre } from "rippleware";
-
-import { model } from "../../shape";
 
 import { id as tensorMeta } from "../../meta/defs/tensor";
 import { id as stimuliMeta } from "../../meta/defs/stimuli";
 
-const { dense } = layers;
+export const id = '6B_VwAeqe8dY8cJrKXGRR';
+
 const defaultOptions = Object.freeze({});
 
 const getInputProps = (state, meta) => {
@@ -43,32 +40,22 @@ const getTargetProps = (state, meta) => {
   return { units };
 };
 
-const createDense = options => (model, { useGlobal, useMeta, useTopology }) => {
+// TODO: Enforce read-only useMeta.
+export default (options = defaultOptions) => (model, { useGlobal, useMeta, useTopology }) => {
   const [index, length] = useTopology();
   const firstLayer = index === 1;
   const targetLayer = index === length - 1;
   const [inputDef, targetDef] = useMeta();
   const { getState } = useGlobal();
   const state = getState();
-
-  model.add(
-    dense({
+  return {
+    ...{
+      ...defaultOptions,
       ...options,
-      ...(firstLayer ? getInputProps(state, inputDef) : {}),
-      ...((!(firstLayer || targetLayer)) ? {} : {}),
-      ...(targetLayer ? getTargetProps(state, targetDef) : {}),
-    })
-  );
-
-  return model;
+    },
+    ...(firstLayer ? getInputProps(state, inputDef) : {}),
+    ...((!(firstLayer || targetLayer)) ? {} : {}),
+    ...(targetLayer ? getTargetProps(state, targetDef) : {}),
+  };
+  q
 };
-
-export default (options = defaultOptions) => pre(
-  ({ useGlobal }) => {
-    const { getState } = useGlobal();
-    const state = getState();
-    return [
-      [model(getState()), createDense(options)],
-    ];
-  },
-);
