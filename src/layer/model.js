@@ -4,18 +4,17 @@ import { pre } from "rippleware";
 
 import { model as modelShape } from "../shape";
 
-import { id as denseId } from "./defs/dense";
-import { id as dropoutId } from "./defs/dropout";
-
 import { id as layerMeta } from "../meta/defs/layer";
 
 // TODO: Should define a prevent useMeta write for layers.
 //       This is the only place where modifiable layer
 //       operations may be permitted.
 
+const concurrentMetaShape = "({...},{...})";
+// TODO: Looks like we could use a shape for concurrent meta
 const appendMeta = (useMeta, typeDef, layerParams) => {
   const metas = useMeta();
-  if (!typeCheck("({...},{...})", metas)) {
+  if (!typeCheck(concurrentMetaShape, metas)) {
     throw new Error(`Expected concurrent state meta, encountered ${meta}.`);
   }
   return useMeta(
@@ -39,7 +38,7 @@ const readOnly = useMeta => (...args) => {
   return useMeta(...args);
 };
 
-const useLayer = (id, withOptions) => pre(
+export const useLayer = (id, withOptions) => pre(
   ({ useGlobal }) => {
     const { getState } = useGlobal();
     const state = getState();
@@ -69,7 +68,21 @@ const useLayer = (id, withOptions) => pre(
   },
 );
 
-export const dense = options => useLayer(denseId, options);
-export const dropout = options => useLayer(dropoutId, options);
+const getLastProp = (meta, prop) => {
+  if (typeCheck(concurrentMetaShape, meta)) {
+    throw new Error(`Expected [object Object], encountered ${meta}.`);
+  } else if (!typeCheck("String", prop)) {
+    throw new Error(`Expected String prop, encountered ${prop}.`);
+  }
+  const { [layerMeta]: lastLayers } = meta;
+  const { length } = lastLayers;
+  if (length > 0) {
+    const [[_, { [prop]: value }]] = lastLayers.slice(-1);
+    return value;
+  }
+  throw new Error(`Attempted to fetch the ${prop} prop of the previous layer, but there aren't any.`);
+};
+
+export const getLastActivation = meta => getLastProp(meta, 'activation');
 
 export default Map();

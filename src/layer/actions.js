@@ -2,9 +2,10 @@ import { typeCheck } from "type-check";
 import { layers as Layers } from "@tensorflow/tfjs";
 
 import { RECEIVE_LAYER } from "./actionTypes";
+import { useLayer } from "./model";
 
-import dense, { id as denseId } from "./defs/dense";
-import dropout, { id as dropoutId } from "./defs/dropout";
+import denseLayer, { id as denseId } from "./defs/dense";
+import dropoutLayer, { id as dropoutId } from "./defs/dropout";
 
 const { dense: Dense, dropout: Dropout } = Layers;
 
@@ -30,6 +31,9 @@ const receiveLayer = (id, stage, layer) => (dispatch, getState) => {
 };
 
 export const build = () => (dispatch, getState) => {
-  dispatch(receiveLayer(denseId, dense, Dense));
-  dispatch(receiveLayer(dropoutId, dropout, Dropout));
+  dispatch(receiveLayer(denseId, denseLayer, Dense));
+  dispatch(receiveLayer(dropoutId, dropoutLayer, Dropout));
 };
+
+export const dense = options => useLayer(denseId, options);
+export const dropout = options => useLayer(dropoutId, options);

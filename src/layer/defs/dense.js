@@ -1,5 +1,7 @@
 import { typeCheck } from "type-check";
 
+import { getLastActivation } from "../model";
+
 import { id as tensorMeta } from "../../meta/defs/tensor";
 import { id as stimuliMeta } from "../../meta/defs/stimuli";
 
@@ -40,20 +42,31 @@ const getTargetProps = (state, meta) => {
   return { units };
 };
 
+const getHiddenProps = (state, inputDef, targetDef) => ({
+  // XXX: Assume the activation of the previous layer.
+  activation: getLastActivation(inputDef),
+});
+
 export default (options = defaultOptions) => (model, { useGlobal, useMeta, useTopology }) => {
   const [index, length] = useTopology();
   const firstLayer = index === 1;
   const targetLayer = index === length - 1;
-  const [inputDef, targetDef] = useMeta();
+  const meta = useMeta();
+  const [inputDef, targetDef] = meta;
   const { getState } = useGlobal();
   const state = getState();
+
+  const lastActivation = ((!firstLayer) && getLastActivation(inputDef)) || undefined;
+
   return {
+    // XXX: Allow hidden layers to have their dynamic props overrided,
+    //      since these are genuine guesses.
+    ...((!(firstLayer || targetLayer)) ? getHiddenProps(state, inputDef, targetDef) : {}),
     ...{
       ...defaultOptions,
       ...options,
     },
     ...(firstLayer ? getInputProps(state, inputDef) : {}),
-    ...((!(firstLayer || targetLayer)) ? {} : {}),
     ...(targetLayer ? getTargetProps(state, targetDef) : {}),
   };
   q
