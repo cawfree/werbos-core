@@ -7,9 +7,30 @@ import { model as modelShape } from "../shape";
 import { id as denseId } from "./defs/dense";
 import { id as dropoutId } from "./defs/dropout";
 
+import { id as layerMeta } from "../meta/defs/layer";
+
 // TODO: Should define a prevent useMeta write for layers.
 //       This is the only place where modifiable layer
 //       operations may be permitted.
+
+const appendMeta = (useMeta, typeDef, layerParams) => {
+  const metas = useMeta();
+  if (!typeCheck("({...},{...})", metas)) {
+    throw new Error(`Expected concurrent state meta, encountered ${meta}.`);
+  }
+  return useMeta(
+    metas
+      .map(
+        ({ [layerMeta]: lastLayers,...extraMeta }) => ({
+          ...extraMeta,
+          [layerMeta]: [
+            ...lastLayers,
+            [typeDef, layerParams],
+          ],
+        }),
+      ),
+  );
+};
 
 const useLayer = (id, withOptions) => pre(
   ({ useGlobal }) => {
@@ -29,11 +50,12 @@ const useLayer = (id, withOptions) => pre(
           .then(() => layerMiddleware(withOptions)(model, { ...hooks }))
           .then(
             (layerParams) => {
+              const { useMeta } = hooks;
               if (!typeCheck("{...}", layerParams)) {
                 throw new Error(`Expected [object Object] layerParams, encountered ${layerParams}.`);
               }
               model.add(createLayer(layerParams));
-              return model;
+              return appendMeta(useMeta, id, layerParams) || model;
             },
           ),
       ],
