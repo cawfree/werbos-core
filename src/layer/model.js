@@ -3,6 +3,8 @@ import { Map } from "immutable";
 import { pre } from "rippleware";
 
 import { id as layerMeta } from "../meta/defs/layer";
+import { id as tensorMeta } from "../meta/defs/tensor";
+import { id as stimuliMeta } from "../meta/defs/stimuli";
 
 import { model as modelShape } from "../shape";
 import { readOnly } from "../meta";
@@ -31,6 +33,22 @@ const appendMeta = (useMeta, typeDef, layerParams) => {
         }),
       ),
   );
+};
+
+export const getInputProps = (state, meta) => {
+  const { [tensorMeta]: { id: typeDef }, [stimuliMeta]: { shape } } = meta;
+  if (!typeCheck("String", typeDef)) {
+    throw new Error(
+      `Expected tensor type definition, but encountered ${typeDef}.`
+    );
+  }
+  const { tensor: model } = state;
+  const { activation } = model.get(typeDef);
+  if (typeCheck("String", activation)) {
+    const inputShape = shape.slice(1);
+    return { activation, inputShape };
+  }
+  throw new Error(`Expected string activation, but encountered ${activation}.`);
 };
 
 export const useLayer = (id, withOptions) => pre(

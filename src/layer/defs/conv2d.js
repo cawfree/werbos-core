@@ -2,21 +2,46 @@
 
 //import { getLastActivation } from "../model";
 //
-//import { id as tensorMeta } from "../../meta/defs/tensor";
 //import { id as stimuliMeta } from "../../meta/defs/stimuli";
+
+import { id as tensorMeta } from "../../meta/defs/tensor";
+import { getInputProps } from "../model";
 
 export const id = 'lLUO5EV7WZNiS1BLeNpYB';
 
 const defaultOptions = Object.freeze({
-
+  //inputShape: [28, 28, 1],
+  //kernelSize: 5,
+  //filters: 8,
+  //strides: 1,
+  //activation: 'relu',
+  //kernelInitializer: 'varianceScaling'
 });
 
-export default (options = defaultOptions) => (model, { ...hooks }) => {
-  const { } = { ...defaultOptions, ...options };
-  throw 'yeah you allocated me';
-  return {
-    
+export default (options = defaultOptions) => (model, { useGlobal, useTopology, useMeta }) => {
+  const { getState } = useGlobal();
+  const state = getState();
+  const [index, length] = useTopology();
+  const [inputDef, targetDef] = useMeta();
+  const { [tensorMeta]: { channels } } = inputDef;
+
+  // XXX: Although unused, we can ensure that the appropriate initialization
+  //      methodology has been followed.
+  if (isNaN(channels) || !Number.isInteger(channels) || channels < 1) {
+    throw new Error(`Expected integer tensor meta channels, encountered ${channels}.`);
+  }
+
+  const firstLayer = index === 1;
+
+  const x = {
+    ...{
+      ...defaultOptions,
+      ...options,
+    },
+    ...(firstLayer ? getInputProps(state, inputDef) : {}),
   };
+  console.log(x);
+  throw 'yeah you allocated me';
 };
 
 //const getInputProps = (state, meta) => {
