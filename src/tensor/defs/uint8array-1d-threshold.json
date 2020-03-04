@@ -1,5 +1,5 @@
 {
   "id": "grIFePqCuzmrPOj_jOARK",
-  "typeDef": "[[Uint8Array]]",
+  "typeDef": "[Uint8Array]",
   "activation": "relu"
 }

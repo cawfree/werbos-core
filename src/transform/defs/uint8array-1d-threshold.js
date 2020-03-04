@@ -6,16 +6,26 @@ import { id as transformMeta } from "../../meta/defs/transform";
 import { reshape2d } from "../model";
 
 export default () => (inputs, { useMeta }) => {
-  throw 'got here';
+  throw 'got here 1d';
   const { [transformMeta]: { width, height, channels } } = useMeta();
   // XXX: I believe this is compatible with tf.
   const nextShape = [width, height, channels];
+  // 2352 / (28*28)
   return inputs.map(
     (arrayOfBuffers) => arrayOfBuffers
       .map(
         (someBuffer) => {
           // okay, so we know this is (width * height)
           const arrayData = [...someBuffer];
+          //const tensorData = ;
+          //// width by width
+          //for (let i = 0; i < arrayData.length; i += 1) {
+          //
+          //}
+
+
+          // width, width, width (of chan)
+          // width, width, width (of chan)
         },
       ),
   );

@@ -27,5 +27,5 @@ export const build = () => dispatch => {
   dispatch(receiveTensor(require("./defs/numeric-2d-scalar.json")));
   dispatch(receiveTensor(require("./defs/numeric-2d-threshold.json")));
   dispatch(receiveTensor(require("./defs/string-2d-onehot.json")));
-  dispatch(receiveTensor(require("./defs/uint8array-2d-threshold.json")));
+  dispatch(receiveTensor(require("./defs/uint8array-1d-threshold.json")));
 };

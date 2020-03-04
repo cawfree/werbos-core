@@ -13,7 +13,7 @@ import n2do from "../tensor/defs/numeric-2d-onehot.json";
 import n2ds from "../tensor/defs/numeric-2d-scalar.json";
 import n2dt from "../tensor/defs/numeric-2d-threshold.json";
 import s2do from "../tensor/defs/string-2d-onehot.json";
-import u2dt from "../tensor/defs/uint8array-2d-threshold.json";
+import u1dt from "../tensor/defs/uint8array-1d-threshold.json";
 
 const receiveTransform = (id, func) => (dispatch, getState) => {
   const { transform } = getState();
@@ -76,7 +76,7 @@ const useTransform = (opts, ids) => pre(
 export const oneHot = opts => useTransform(opts, [n2do.id, s2do.id]);
 export const normalize = opts => useTransform(opts, [n1dn.id, n2dn.id]);
 export const scalar = opts => useTransform(opts, [n1ds.id, n2ds.id]);
-export const threshold = opts => useTransform(opts, [u2dt.id, n2dt.id]);
+export const threshold = opts => useTransform(opts, [u1dt.id, n2dt.id]);
 
 export const build = () => (dispatch, getState) => { 
   dispatch(
@@ -101,6 +101,6 @@ export const build = () => (dispatch, getState) => {
     receiveTransform(s2do.id, require("./defs/string-2d-onehot.js").default)
   );
   dispatch(
-    receiveTransform(u2dt.id, require("./defs/uint8array-2d-threshold.js").default)
+    receiveTransform(u1dt.id, require("./defs/uint8array-1d-threshold.js").default)
   );
 };
