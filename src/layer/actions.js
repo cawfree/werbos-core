@@ -6,6 +6,7 @@ import { useLayer } from "./model";
 
 import denseLayer, { id as denseId } from "./defs/dense";
 import dropoutLayer, { id as dropoutId } from "./defs/dropout";
+// XXX: This also means that conv2d can actually just be conv().
 import conv2dLayer, { id as conv2dId } from "./defs/conv2d";
 import flattenLayer, { id as flattenId } from "./defs/flatten";
 import poolingLayer, { id as poolingId } from "./defs/pooling";
