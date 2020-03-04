@@ -1,2 +1,2 @@
-export { build, dense, dropout } from "./actions";
+export { build, dense, dropout, conv2d } from "./actions";
 export { default as reducer } from "./reducer";

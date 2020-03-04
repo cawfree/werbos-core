@@ -6,8 +6,9 @@ import { useLayer } from "./model";
 
 import denseLayer, { id as denseId } from "./defs/dense";
 import dropoutLayer, { id as dropoutId } from "./defs/dropout";
+import conv2dLayer, { id as conv2dId } from "./defs/conv2d";
 
-const { dense: Dense, dropout: Dropout } = Layers;
+const { dense: Dense, dropout: Dropout, conv2d: Conv2D } = Layers;
 
 const receiveLayer = (id, stage, layer) => (dispatch, getState) => {
   const { layer: model } = getState();
@@ -33,7 +34,9 @@ const receiveLayer = (id, stage, layer) => (dispatch, getState) => {
 export const build = () => (dispatch, getState) => {
   dispatch(receiveLayer(denseId, denseLayer, Dense));
   dispatch(receiveLayer(dropoutId, dropoutLayer, Dropout));
+  dispatch(receiveLayer(conv2dId, conv2dLayer, Conv2D));
 };
 
 export const dense = options => useLayer(denseId, options);
 export const dropout = options => useLayer(dropoutId, options);
+export const conv2d = options => useLayer(conv2dId, options);
