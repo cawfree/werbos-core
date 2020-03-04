@@ -7,6 +7,7 @@ import "@tensorflow/tfjs-node";
 import { justOnce } from "rippleware";
 
 import werbos, {
+  Meta,
   https,
   normalize,
   scalar,
