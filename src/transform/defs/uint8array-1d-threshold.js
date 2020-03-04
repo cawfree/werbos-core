@@ -3,8 +3,6 @@ import otsu from "otsu";
 
 import { id as transformMeta } from "../../meta/defs/transform";
 
-import { reshape2d } from "../model";
-
 const sumBuffer = (buf, channels) => {
   const vec = [];
   let i = 0;
@@ -24,7 +22,6 @@ export default () => (inputs, { useMeta, useTensor }) => {
   // XXX: Thresholded data only returns a single channel of data.
   useTensor({ channels: 1 });
 
-  // TODO: It's likely that we can use stack for the reshape2d implementation.
   return stack(
     inputs
       .map(buf => sumBuffer(buf, channels))
