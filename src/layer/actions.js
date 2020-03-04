@@ -7,8 +7,17 @@ import { useLayer } from "./model";
 import denseLayer, { id as denseId } from "./defs/dense";
 import dropoutLayer, { id as dropoutId } from "./defs/dropout";
 import conv2dLayer, { id as conv2dId } from "./defs/conv2d";
+import flattenLayer, { id as flattenId } from "./defs/flatten";
+import poolingLayer, { id as poolingId } from "./defs/pooling";
 
-const { dense: Dense, dropout: Dropout, conv2d: Conv2D } = Layers;
+const {
+  dense: Dense,
+  dropout: Dropout,
+  conv2d: Conv2D,
+  flatten: Flatten,
+  // TODO: There is max pooling 1d, 2d. We should be able to abstract this into pooling().
+  maxPooling2d: MaxPooling2D,
+} = Layers;
 
 const receiveLayer = (id, stage, layer) => (dispatch, getState) => {
   const { layer: model } = getState();
@@ -35,8 +44,12 @@ export const build = () => (dispatch, getState) => {
   dispatch(receiveLayer(denseId, denseLayer, Dense));
   dispatch(receiveLayer(dropoutId, dropoutLayer, Dropout));
   dispatch(receiveLayer(conv2dId, conv2dLayer, Conv2D));
+  dispatch(receiveLayer(flattenId, flattenLayer, Flatten));
+  dispatch(receiveLayer(poolingId, poolingLayer, MaxPooling2D));
 };
 
 export const dense = options => useLayer(denseId, options);
 export const dropout = options => useLayer(dropoutId, options);
 export const conv2d = options => useLayer(conv2dId, options);
+export const flatten = options => useLayer(flattenId, options);
+export const pooling = options => useLayer(poolingId, options);

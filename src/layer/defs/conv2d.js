@@ -33,50 +33,15 @@ export default (options = defaultOptions) => (model, { useGlobal, useTopology, u
 
   const firstLayer = index === 1;
 
-  const x = {
+  return {
     ...{
       ...defaultOptions,
       ...options,
     },
     ...(firstLayer ? getInputProps(state, inputDef) : {}),
   };
-  console.log(x);
-  throw 'yeah you allocated me';
 };
 
-//const getInputProps = (state, meta) => {
-//  const { [tensorMeta]: { id: typeDef }, [stimuliMeta]: { shape } } = meta;
-//  if (!typeCheck("String", typeDef)) {
-//    throw new Error(
-//      `Expected tensor type definition, but encountered ${typeDef}.`
-//    );
-//  }
-//  const { tensor: model } = state;
-//  const { activation } = model.get(typeDef);
-//  if (typeCheck("String", activation)) {
-//    const inputShape = shape.slice(1);
-//    return { activation, inputShape };
-//  }
-//  throw new Error(`Expected string activation, but encountered ${activation}.`);
-//};
-//
-//// TODO: Should warn if the user specified units on the target, as these will be overwritten.
-//const getTargetProps = (state, meta) => {
-//  const { [tensorMeta]: { id: typeDef }, [stimuliMeta]: { shape } } = meta;
-//  if (!typeCheck("String", typeDef)) {
-//    throw new Error(
-//      `Expected tensor type definition, but encountered ${typeDef}.`
-//    );
-//  }
-//  const { tensor: model } = state;
-//  const { targetActivation: activation } = model.get(typeDef);
-//  const units = shape[shape.length - 1];
-//  if (typeCheck("String", activation)) {
-//    return { units, activation };
-//  }
-//  return { units };
-//};
-//
 //const getHiddenProps = (state, inputDef, targetDef) => ({
 //  // XXX: Assume the activation of the previous layer.
 //  activation: getLastActivation(inputDef),

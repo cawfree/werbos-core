@@ -51,6 +51,22 @@ export const getInputProps = (state, meta) => {
   throw new Error(`Expected string activation, but encountered ${activation}.`);
 };
 
+export const getTargetProps = (state, meta) => {
+  const { [tensorMeta]: { id: typeDef }, [stimuliMeta]: { shape } } = meta;
+  if (!typeCheck("String", typeDef)) {
+    throw new Error(
+      `Expected tensor type definition, but encountered ${typeDef}.`
+    );
+  }
+  const { tensor: model } = state;
+  const { targetActivation: activation } = model.get(typeDef);
+  const units = shape[shape.length - 1];
+  if (typeCheck("String", activation)) {
+    return { units, activation };
+  }
+  return { units };
+};
+
 export const useLayer = (id, withOptions) => pre(
   ({ useGlobal }) => {
     const { getState } = useGlobal();
