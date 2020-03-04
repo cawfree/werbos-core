@@ -5,11 +5,15 @@ import { id as transformMeta } from "../../meta/defs/transform";
 
 import { reshape2d } from "../model";
 
-export default () => (inputs, { useMeta }) => {
-  throw 'got here 1d';
+export default () => (inputs, { useMeta, useTensor }) => {
   const { [transformMeta]: { width, height, channels } } = useMeta();
+
   // XXX: I believe this is compatible with tf.
   const nextShape = [width, height, channels];
+
+  // XXX: Thresholded data only returns a single channel of data.
+  useTensor({ channels: 1 });
+
   // 2352 / (28*28)
   return inputs.map(
     (arrayOfBuffers) => arrayOfBuffers

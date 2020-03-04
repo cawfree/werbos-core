@@ -2,6 +2,7 @@ import { pre } from "rippleware";
 import { typeCheck } from "type-check";
 
 import { id as tensorMeta } from "../meta/defs/tensor";
+import { readOnly } from "../meta";
 
 import { getTransform } from "./model";
 import { RECEIVE_TRANSFORM } from "./actionTypes";
@@ -65,7 +66,7 @@ const useTransform = (opts, ids) => pre(
           (input, { useMeta, ...extras }) => {
             const useTensor = useTensorMeta(id, useMeta);
             // XXX: Ensure that at the bare minimum, required tensor information is persisted.
-            return useTensor({}) || transform.get(id)(opts)(input, { ...extras, useTensor });
+            return useTensor({}) || transform.get(id)(opts)(input, { ...extras, useMeta: readOnly(useMeta), useTensor });
           },
         ];
       },

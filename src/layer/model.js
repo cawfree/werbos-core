@@ -2,9 +2,11 @@ import { typeCheck } from "type-check";
 import { Map } from "immutable";
 import { pre } from "rippleware";
 
-import { model as modelShape } from "../shape";
-
 import { id as layerMeta } from "../meta/defs/layer";
+
+import { model as modelShape } from "../shape";
+import { readOnly } from "../meta";
+
 
 // TODO: Should define a prevent useMeta write for layers.
 //       This is the only place where modifiable layer
@@ -29,13 +31,6 @@ const appendMeta = (useMeta, typeDef, layerParams) => {
         }),
       ),
   );
-};
-
-const readOnly = useMeta => (...args) => {
-  if (args.length > 0) {
-    throw new Error(`A layer attempted to write using useMeta(), but this operation is not permitted.`);
-  }
-  return useMeta(...args);
 };
 
 export const useLayer = (id, withOptions) => pre(
