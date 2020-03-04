@@ -10,12 +10,6 @@ export const scaleFeatures = (data, mean, std) => {
   return new Float32Array(data.map(e => (e - mean) * i));
 };
 
-export const reshape2d = ([...tensors]) => {
-  const data = concat(tensors);
-  const { shape } = data;
-  return data.reshape([tensors.length, shape[0] / tensors.length]).transpose();
-};
-
 export const symbolize = (src, max = Number.MAX_SAFE_INTEGER) =>
   Array.from(
     src.reduce((m, s) => {

@@ -1,6 +1,5 @@
-import { tensor1d } from "@tensorflow/tfjs";
-
-import { reshape2d } from "../model";
+import { tensor1d, stack } from "@tensorflow/tfjs";
 
 export default () => inputs =>
-  reshape2d(inputs.map(input => new Float32Array(input)));
+  stack(inputs.map(input => tensor1d(new Float32Array(input))))
+  .transpose();
