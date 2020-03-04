@@ -43,6 +43,8 @@ it("should be capable of handwriting classification using the mnist dataset", as
     "/home/cawfree/Development/mnist-dataset/public/t10k-images-idx3-ubyte.json",
     "/home/cawfree/Development/mnist-dataset/public/t10k-labels-idx1-ubyte.json"
   );
+
+  console.log(results);
   
   expect(true)
     .toBeTruthy();
