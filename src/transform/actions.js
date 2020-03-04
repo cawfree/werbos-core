@@ -6,7 +6,7 @@ import { id as tensorMeta } from "../meta/defs/tensor";
 import { getTransform } from "./model";
 import { RECEIVE_TRANSFORM } from "./actionTypes";
 
-import b1dt from "../tensor/defs/buffer-1d-threshold.json";
+import b2dt from "../tensor/defs/buffer-2d-threshold.json";
 import n1dn from "../tensor/defs/numeric-1d-normal.json";
 import n1ds from "../tensor/defs/numeric-1d-scalar.json";
 import n2dn from "../tensor/defs/numeric-2d-normal.json";
@@ -76,11 +76,11 @@ const useTransform = (opts, ids) => pre(
 export const oneHot = opts => useTransform(opts, [n2do.id, s2do.id]);
 export const normalize = opts => useTransform(opts, [n1dn.id, n2dn.id]);
 export const scalar = opts => useTransform(opts, [n1ds.id, n2ds.id]);
-export const threshold = opts => useTransform(opts, [b1dt.id, n2dt.id]);
+export const threshold = opts => useTransform(opts, [b2dt.id, n2dt.id]);
 
 export const build = () => (dispatch, getState) => {
   dispatch(
-    receiveTransform(b1dt.id, require("./defs/buffer-1d-threshold.js").default)
+    receiveTransform(b2dt.id, require("./defs/buffer-2d-threshold.js").default)
   );
   dispatch(
     receiveTransform(n1dn.id, require("./defs/numeric-1d-normal.js").default)
