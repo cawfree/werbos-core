@@ -5,6 +5,19 @@ import { id as transformMeta } from "../../meta/defs/transform";
 
 import { reshape2d } from "../model";
 
+const sumBuffer = (buf, channels) => {
+  const vec = [];
+  let i = 0;
+  while (i < buf.length) {
+    let v = 0;
+    for (let j = 0; j < channels; j++) {
+      v += buf[i++];
+    }
+    vec.push(v);
+  }
+  return vec;
+};
+
 export default () => (inputs, { useMeta, useTensor }) => {
   const { [transformMeta]: { width, height, channels } } = useMeta();
 
@@ -14,27 +27,29 @@ export default () => (inputs, { useMeta, useTensor }) => {
   // XXX: Thresholded data only returns a single channel of data.
   useTensor({ channels: 1 });
 
+  return inputs
+    .map(buf => sumBuffer(buf, channels))
+    //.map(e => console.log(e.length,'vs',width*height));
+
   // 2352 / (28*28)
-  return inputs.map(
-    (arrayOfBuffers) => arrayOfBuffers
-      .map(
-        (someBuffer) => {
-          // okay, so we know this is (width * height)
-          const arrayData = [...someBuffer];
-          //const tensorData = ;
-          //// width by width
-          //for (let i = 0; i < arrayData.length; i += 1) {
-          //
-          //}
+  //return inputs.map(
+  //  (arrayOfBuffers) => arrayOfBuffers
+  //    .map(
+  //      (someBuffer) => {
+  //        // okay, so we know this is (width * height)
+  //        const arrayData = [...someBuffer];
+  //        //const tensorData = ;
+  //        //// width by width
+  //        //for (let i = 0; i < arrayData.length; i += 1) {
+  //        //
+  //        //}
 
 
-          // width, width, width (of chan)
-          // width, width, width (of chan)
-        },
-      ),
-  );
-
-  
+  //        // width, width, width (of chan)
+  //        // width, width, width (of chan)
+  //      },
+  //    ),
+  //);
 
   // converted an array of numbers into a buffer
   // where [Number] was a full image 2d,
