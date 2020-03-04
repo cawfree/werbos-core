@@ -20,7 +20,6 @@ const receiveTensor = tensor => (dispatch, getState) => {
 };
 
 export const build = () => dispatch => {
-  dispatch(receiveTensor(require("./defs/buffer-2d-threshold.json")));
   dispatch(receiveTensor(require("./defs/numeric-1d-normal.json")));
   dispatch(receiveTensor(require("./defs/numeric-1d-scalar.json")));
   dispatch(receiveTensor(require("./defs/numeric-2d-normal.json")));
@@ -28,4 +27,5 @@ export const build = () => dispatch => {
   dispatch(receiveTensor(require("./defs/numeric-2d-scalar.json")));
   dispatch(receiveTensor(require("./defs/numeric-2d-threshold.json")));
   dispatch(receiveTensor(require("./defs/string-2d-onehot.json")));
+  dispatch(receiveTensor(require("./defs/uint8array-2d-threshold.json")));
 };

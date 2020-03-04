@@ -6,6 +6,7 @@ import { id as transformMeta } from "../../meta/defs/transform";
 import { reshape2d } from "../model";
 
 export default () => (inputs, { useMeta }) => {
+  throw 'got here';
   const { [transformMeta]: { width, height, channels } } = useMeta();
   // XXX: I believe this is compatible with tf.
   const nextShape = [width, height, channels];
