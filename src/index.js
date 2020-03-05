@@ -3,7 +3,6 @@ import fs from "fs";
 import compose, { pre } from "rippleware";
 
 import createStore from "./createStore";
-import createMatcher from "./createMatcher";
 
 import { initialMeta } from "./meta";
 
@@ -30,5 +29,5 @@ export const files = () => [
   ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
 ];
 
-export default () => compose(createStore, createMatcher)
+export default () => compose(createStore)
   .all(pre(initialMeta()));
