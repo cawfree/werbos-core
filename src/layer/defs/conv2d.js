@@ -4,11 +4,9 @@ import { getInputProps, getLastActivation } from "../model";
 export const id = 'lLUO5EV7WZNiS1BLeNpYB';
 
 const defaultOptions = Object.freeze({
-  //inputShape: [28, 28, 1],
   //kernelSize: 5,
   //filters: 8,
   //strides: 1,
-  //activation: 'relu',
   //kernelInitializer: 'varianceScaling'
 });
 
