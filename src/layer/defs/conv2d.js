@@ -1,11 +1,5 @@
-//import { typeCheck } from "type-check";
-
-//import { getLastActivation } from "../model";
-//
-//import { id as stimuliMeta } from "../../meta/defs/stimuli";
-
 import { id as tensorMeta } from "../../meta/defs/tensor";
-import { getInputProps } from "../model";
+import { getInputProps, getLastActivation } from "../model";
 
 export const id = 'lLUO5EV7WZNiS1BLeNpYB';
 
@@ -16,6 +10,10 @@ const defaultOptions = Object.freeze({
   //strides: 1,
   //activation: 'relu',
   //kernelInitializer: 'varianceScaling'
+});
+
+const getHiddenProps = (state, inputDef) => ({
+  activation: getLastActivation(inputDef),
 });
 
 export default (options = defaultOptions) => (model, { useGlobal, useTopology, useMeta }) => {
@@ -32,8 +30,10 @@ export default (options = defaultOptions) => (model, { useGlobal, useTopology, u
   }
 
   const firstLayer = index === 1;
+  const lastLayer = index === length - 1;
 
   return {
+    ...((!firstLayer && !lastLayer) ? getHiddenProps(state, inputDef) : {}),
     ...{
       ...defaultOptions,
       ...options,
@@ -41,33 +41,3 @@ export default (options = defaultOptions) => (model, { useGlobal, useTopology, u
     ...(firstLayer ? getInputProps(state, inputDef) : {}),
   };
 };
-
-//const getHiddenProps = (state, inputDef, targetDef) => ({
-//  // XXX: Assume the activation of the previous layer.
-//  activation: getLastActivation(inputDef),
-//});
-//
-//export default (options = defaultOptions) => (model, { useGlobal, useMeta, useTopology }) => {
-//  const [index, length] = useTopology();
-//  const firstLayer = index === 1;
-//  const targetLayer = index === length - 1;
-//  const meta = useMeta();
-//  const [inputDef, targetDef] = meta;
-//  const { getState } = useGlobal();
-//  const state = getState();
-//
-//  const lastActivation = ((!firstLayer) && getLastActivation(inputDef)) || undefined;
-//
-//  return {
-//    // XXX: Allow hidden layers to have their dynamic props overrided,
-//    //      since these are genuine guesses.
-//    ...((!(firstLayer || targetLayer)) ? getHiddenProps(state, inputDef, targetDef) : {}),
-//    ...{
-//      ...defaultOptions,
-//      ...options,
-//    },
-//    ...(firstLayer ? getInputProps(state, inputDef) : {}),
-//    ...(targetLayer ? getTargetProps(state, targetDef) : {}),
-//  };
-//  q
-//};

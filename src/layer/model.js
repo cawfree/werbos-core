@@ -97,7 +97,9 @@ export const useLayer = (id, withOptions) => pre(
   },
 );
 
-const getLastProp = (meta, prop) => {
+// TODO: Might need to handle the case where eventually we'll treat 
+//       undefined activations as null.
+const getLastProp = (meta, prop, untilHasDefinition = true) => {
   if (typeCheck(concurrentMetaShape, meta)) {
     throw new Error(`Expected [object Object], encountered ${meta}.`);
   } else if (!typeCheck("String", prop)) {
@@ -106,8 +108,13 @@ const getLastProp = (meta, prop) => {
   const { [layerMeta]: lastLayers } = meta;
   const { length } = lastLayers;
   if (length > 0) {
-    const [[_, { [prop]: value }]] = lastLayers.slice(-1);
-    return value;
+    for (let i = length - 1; i >= 0; i -= 1) {
+      const [_, { [prop]: value }] = lastLayers[i];
+      if (value !== undefined || !untilHasDefinition) {
+        return value;
+      }
+    }
+    return undefined;
   }
   throw new Error(`Attempted to fetch the ${prop} prop of the previous layer, but there aren't any.`);
 };
