@@ -9,7 +9,7 @@ import dropoutLayer, { id as dropoutId } from "./defs/dropout";
 // XXX: This also means that conv2d can actually just be conv().
 import conv2dLayer, { id as conv2dId } from "./defs/conv2d";
 import flattenLayer, { id as flattenId } from "./defs/flatten";
-import poolingLayer, { id as poolingId } from "./defs/pooling";
+import pooling2dLayer, { id as pooling2dId } from "./defs/pooling2d";
 
 const {
   dense: Dense,
@@ -46,11 +46,11 @@ export const build = () => (dispatch, getState) => {
   dispatch(receiveLayer(dropoutId, dropoutLayer, Dropout));
   dispatch(receiveLayer(conv2dId, conv2dLayer, Conv2D));
   dispatch(receiveLayer(flattenId, flattenLayer, Flatten));
-  dispatch(receiveLayer(poolingId, poolingLayer, MaxPooling2D));
+  dispatch(receiveLayer(pooling2dId, pooling2dLayer, MaxPooling2D));
 };
 
 export const dense = options => useLayer(denseId, options);
 export const dropout = options => useLayer(dropoutId, options);
-export const conv2d = options => useLayer(conv2dId, options);
+export const conv = options => useLayer(conv2dId, options);
 export const flatten = options => useLayer(flattenId, options);
-export const pooling = options => useLayer(poolingId, options);
+export const pooling = options => useLayer(pooling2dId, options);

@@ -7,7 +7,7 @@ import createMatcher from "./createMatcher";
 
 import { initialMeta } from "./meta";
 
-export { dense, dropout, conv2d, pooling, flatten } from "./layer";
+export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
 export { sequential } from "./network";
 export { train, kfold } from "./train";
