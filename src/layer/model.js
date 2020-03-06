@@ -121,4 +121,6 @@ const getLastProp = (meta, prop, untilHasDefinition = true) => {
 
 export const getLastActivation = meta => getLastProp(meta, 'activation');
 
+export const getLastKernelSize = meta => getLastProp(meta, 'kernelSize', false);
+
 export default Map();
