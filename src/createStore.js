@@ -9,6 +9,7 @@ import { reducer as shape, build as shapes } from "./shape";
 import { reducer as tensor, build as tensors } from "./tensor";
 import { reducer as train, build as training } from "./train";
 import { reducer as transform, build as transforms } from "./transform";
+import { reducer as variant, build as variants } from "./variant";
 
 export default () => {
   const store = createStore(
@@ -20,7 +21,8 @@ export default () => {
       shape,
       tensor,
       train,
-      transform
+      transform,
+      variant
     }),
     applyMiddleware(thunkMiddleware)
   );
@@ -35,6 +37,7 @@ export default () => {
   dispatch(transforms());
   dispatch(networks());
   dispatch(rectifiers());
+  dispatch(variants());
 
   return { ...store };
 };

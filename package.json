@@ -1,6 +1,6 @@
 {
   "name": "@werbos/core",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.0",
   "description": "🧠 Deep Learning. Rapid Prototyping.",
   "main": "dist",
   "repository": "https://github.com/cawfree/werbos-core",
@@ -31,7 +31,7 @@
     "otsu": "^0.0.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rippleware": "^0.2.0-alpha.21",
+    "rippleware": "^0.2.0-alpha.25",
     "stats-lite": "^2.2.0",
     "tfjs-clone": "^0.0.1",
     "type-check": "^0.3.2"
