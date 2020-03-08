@@ -1,5 +1,8 @@
 import nanoid from "nanoid";
 
+import { createVariant } from "./variant";
+
 export default ({ useGlobal }, ...args) => {
-  return nanoid();
+  const { getState } = useGlobal();
+  return createVariant(getState(), ...args);
 };

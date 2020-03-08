@@ -77,22 +77,22 @@ export const useLayer = (id, withOptions) => pre(
       throw new Error(`Attempted to use layer ${id}, but it does not exist. Has it been registered?`);
     }
     const [layerMiddleware, createLayer] = layer;
+
+    const LayerDefinition = (model, { useMeta, ...extraHooks }) => Promise
+      .resolve()
+      .then(() => layerMiddleware(withOptions)(model, { useMeta: readOnly(useMeta), ...extraHooks }))
+      .then(
+        (layerParams) => {
+          if (!typeCheck("{...}", layerParams)) {
+            throw new Error(`Expected [object Object] layerParams, encountered ${layerParams}.`);
+          }
+          model.add(createLayer(layerParams));
+          return appendMeta(useMeta, id, layerParams) || model;
+        },
+      );
+
     return [
-      [
-        modelShape(state), 
-        (model, { useMeta, ...extraHooks }) => Promise
-          .resolve()
-          .then(() => layerMiddleware(withOptions)(model, { useMeta: readOnly(useMeta), ...extraHooks }))
-          .then(
-            (layerParams) => {
-              if (!typeCheck("{...}", layerParams)) {
-                throw new Error(`Expected [object Object] layerParams, encountered ${layerParams}.`);
-              }
-              model.add(createLayer(layerParams));
-              return appendMeta(useMeta, id, layerParams) || model;
-            },
-          ),
-      ],
+      [modelShape(state), LayerDefinition],
     ];
   },
 );
