@@ -1,8 +1,12 @@
 import { typeCheck } from "type-check";
 import { model } from "./shape";
 
-export default ({ useGlobal }, params) => {
+export default ({ useGlobal, useKey }, params) => {
   const { getState } = useGlobal();
-  console.log(params);
+   params.map(
+     e => {
+       console.log(useKey(e[0]));
+     },
+   );
   return params;
 };

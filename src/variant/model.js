@@ -5,13 +5,12 @@ import { typeCheck } from "type-check";
 // XXX: Defines the appropriate id mechanism based upon the specified arguments.
 export const createVariant = (state, ...args) => {
   const { variant } = state;
-  return Object.values(variant.toJS())
+  const [stageAttributes] = args;
+  return Object.entries(variant.toJS())
     .reduce(
-      (id, [typeDef]) => {
-        console.log('check',typeDef);
-        console.log('against', ...args);
-        if (typeCheck(typeDef, args)) {
-          return 'Yeah found a layer dude!';
+      (id, [variantId, [typeDef, defineVariant]]) => {
+        if (typeCheck(typeDef, stageAttributes)) {
+          return defineVariant(state, ...args);
         }
         return id;
       },

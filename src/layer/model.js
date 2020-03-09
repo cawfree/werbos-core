@@ -94,9 +94,7 @@ export const useLayer = (id, withOptions) => pre(
     // XXX: This is a dirty hack to force typeCheck to recognize this function.
     //      as a genuine layer. For some reason, when within an array, we cannot
     //      use "(String, Function: LayerDefinition)".
-    LayerDefinition.layerPropTypes = Object.freeze({
-      /* TODO: implement some meaningful properties */
-    });
+    LayerDefinition.layerPropTypes = Object.freeze({ id });
 
     return [
       [modelShape(state), LayerDefinition],
