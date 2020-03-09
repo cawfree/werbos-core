@@ -7,6 +7,7 @@ import { reducer as network, build as networks } from "./network";
 import { reducer as receiver, build as receivers } from "./receiver";
 import { reducer as rectify, build as rectifiers } from "./rectify";
 import { reducer as shape, build as shapes } from "./shape";
+import { reducer as stream, build as streams } from "./stream";
 import { reducer as tensor, build as tensors } from "./tensor";
 import { reducer as train, build as training } from "./train";
 import { reducer as transform, build as transforms } from "./transform";
@@ -21,6 +22,7 @@ export default () => {
       receiver,
       rectify,
       shape,
+      stream,
       tensor,
       train,
       transform,
@@ -36,6 +38,7 @@ export default () => {
   dispatch(receivers());
   dispatch(rectifiers());
   dispatch(shapes());
+  dispatch(streams());
   dispatch(tensors());
   dispatch(training());
   dispatch(transforms());
