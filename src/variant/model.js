@@ -10,8 +10,17 @@ export const createVariant = (state, ...args) => {
     .reduce(
       (id, [variantId, [typeDef, defineVariant]]) => {
         if (typeCheck(typeDef, stageAttributes)) {
+          const def = defineVariant(state, ...args);
+          if (!typeCheck("Object", def)) {
+            throw new Error(`Expected Object variant definition, encountered ${def}.`);
+          } else if (def.hasOwnProperty("variant")) {
+            throw new Error(`A variant definition attempted to write to the "variant" property, but this is reserved.`);
+          }
           // XXX: Computes the corresponding property.
-          return defineVariant(state, ...args);
+          return {
+            ...def,
+            variant: variantId,
+          };
         }
         return id;
       },
