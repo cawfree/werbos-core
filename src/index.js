@@ -14,6 +14,7 @@ export { sequential } from "./network";
 export { train, kfold } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";
 export { shuffle } from "./tensor";
+export { Variant } from "./variant";
 
 const jsonByUrl = url => axios({ method: "get", url })
   .then(({ data }) => data);

@@ -2,6 +2,13 @@ import nanoid from "nanoid";
 import { Map } from "immutable";
 import { typeCheck } from "type-check";
 
+import { id as Layer } from "./defs/layer";
+
+export const Variant = Object.freeze({
+  Layer,
+});
+
+
 // XXX: Defines the appropriate id mechanism based upon the specified arguments.
 export const createVariant = (state, ...args) => {
   const { variant } = state;
