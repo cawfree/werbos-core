@@ -10,6 +10,7 @@ export const createVariant = (state, ...args) => {
     .reduce(
       (id, [variantId, [typeDef, defineVariant]]) => {
         if (typeCheck(typeDef, stageAttributes)) {
+          // XXX: Computes the corresponding property.
           return defineVariant(state, ...args);
         }
         return id;

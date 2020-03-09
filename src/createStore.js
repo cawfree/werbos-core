@@ -4,6 +4,7 @@ import thunkMiddleware from "redux-thunk";
 import { reducer as layer, build as layers } from "./layer";
 import { reducer as meta, build as metas } from "./meta";
 import { reducer as network, build as networks } from "./network";
+import { reducer as receiver, build as receivers } from "./receiver";
 import { reducer as rectify, build as rectifiers } from "./rectify";
 import { reducer as shape, build as shapes } from "./shape";
 import { reducer as tensor, build as tensors } from "./tensor";
@@ -17,6 +18,7 @@ export default () => {
       layer,
       meta,
       network,
+      receiver,
       rectify,
       shape,
       tensor,
@@ -31,12 +33,13 @@ export default () => {
 
   dispatch(layers());
   dispatch(metas());
+  dispatch(receivers());
+  dispatch(rectifiers());
   dispatch(shapes());
   dispatch(tensors());
   dispatch(training());
   dispatch(transforms());
   dispatch(networks());
-  dispatch(rectifiers());
   dispatch(variants());
 
   return { ...store };
