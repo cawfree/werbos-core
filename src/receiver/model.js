@@ -1,13 +1,20 @@
 import { Map } from "immutable";
 
+// TODO: Just propagate the hooks.
+// TODO: Should we pass the full state configuration? This assumes the global state will *not* change during calling receivers.
 export const shouldReceive = (state, computeKeyFor, ...stages) => {
-  //console.log('params are',stages);
-
-  //stages.forEach(
-  //  stage => console.log(computeKeyFor(stage)),
-  //);
-
-  return stages;
+  const { receiver: model } = state;
+  // XXX: Order is inconsequential; the receiver will be recursively called
+  //      until a prevailing layout has been retained.
+  return Object.entries(model.toJS())
+    .reduce(
+      (stages, [id, [shouldReceiveStages]]) => shouldReceiveStages(
+        state,
+        computeKeyFor,
+        ...stages,
+      ),
+      stages,
+    );
 };
 
 export default Map();
