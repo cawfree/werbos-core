@@ -1,4 +1,5 @@
 import { Map } from "immutable";
+import { typeCheck } from "type-check";
 
 // TODO: Just propagate the hooks.
 // TODO: Should we pass the full state configuration? This assumes the global state will *not* change during calling receivers.

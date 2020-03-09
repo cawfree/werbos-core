@@ -1,3 +1,5 @@
+import { pre } from "rippleware";
+
 import { Variant } from "../../variant";
 
 const { Layer } = Variant;
@@ -13,8 +15,20 @@ const flattenBoundary = (state, computeKeyFor, ...stages) => {
     const { variant: variantId, ...extras } = computeKeyFor(stage);
     const { variant: lastVariantId,  ...lastExtras } = computeKeyFor(lastStage);
 
+    // XXX: Likely useful to abstract to model.
     if (variantId === Layer && lastVariantId === Layer) {
-      console.log('found two connecting layers');
+      return [
+        ...stages.slice(0, i),
+        [
+          [e => {
+            console.log('inside your layer');
+            return e;
+          }],
+          e => e,
+          null,
+        ],
+        ...stages.slice(i),
+      ];
     }
   }
 
@@ -22,24 +36,3 @@ const flattenBoundary = (state, computeKeyFor, ...stages) => {
 };
 
 export default flattenBoundary;
-
-//export default (state, computeKeyFor, ...stages) => {
-//  const stagesToReturn = [...stages];
-//  
-//  for (let i = 1; i < stagesToReturn.length; i += 1) {
-//    const lastStage = stagesToReturn[i - 1];
-//    const stage = stagesToReturn
-//
-//  }
-//
-//
-//  //stages.map(
-//  //  (stage) => {
-//  //    const { variant: variantId } = computeKeyFor(stage);
-//  //    if (variantId === Layer) {
-//  //      console.log("Found a layer!");
-//  //    }
-//  //  },
-//  //);
-//  //return stages;
-//};
