@@ -2,8 +2,7 @@ import { typeCheck } from "type-check";
 
 import { RECEIVE_VARIANT } from "./actionTypes";
 
-import { id as layer, typeDef as layerTypeDef } from "./defs/layer";
-import { variant as layerVariant } from "../layer";
+import layerVariant, { id as layer, typeDef as layerTypeDef } from "./defs/layer";
 
 const receiveVariant = (id, typeDef, variant) => (dispatch, getState) => {
   if (!typeCheck("String", id)) {
