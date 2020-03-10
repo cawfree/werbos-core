@@ -3,6 +3,7 @@ import { typeCheck } from "type-check";
 import { RECEIVE_CONTEXT } from "./actionTypes";
 
 import { id as baseId } from "./defs/base";
+import { id as streamId } from "./defs/stream";
 
 const receiveContext = id => (dispatch, getState) => {
   if (!typeCheck("String", id)) {
@@ -16,4 +17,5 @@ const receiveContext = id => (dispatch, getState) => {
 
 export const build = () => (dispatch, getState) => {
   dispatch(receiveContext(baseId));
+  dispatch(receiveContext(streamId));
 };

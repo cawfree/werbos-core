@@ -1,19 +1,15 @@
 import { typeCheck } from "type-check";
 import compose, { noop } from "rippleware";
 
-import { id as next } from "./next";
+import { Context } from "../../context";
 
-//const isNextAction = (e) => {
-//  if (typeCheck("(Object)", e)) {
-//
-//  }
-//  return false;
-//};
+const { Stream } = Context;
+
+const applyStreamContext = () => ({ useGlobal }) => {
+  const { getState } = useGlobal();
+  const { context } = getState();
+  return context.get(Stream);
+};
 
 export default () => compose()
-  .all(
-    [
-      ['(Function)', () => 'got a next action'],
-      ['*', noop()],
-    ],
-  );
+  .ctx(applyStreamContext());

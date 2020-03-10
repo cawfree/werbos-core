@@ -6,16 +6,33 @@ import werbos, { stream, next, files } from "../src";
 it("should be capable of incrementally streaming mnist data", async () => {
 
   const app = werbos()
+    .use((_, { useContext }) => {
+      console.log('base is',useContext());
+      return _;
+    })
     .use(
-      // XXX: Needs a context of execution can inform others (non-static)
       stream()
-        .ctx('stream')
-        .use(files(), files()),
+        .use(
+          (_, { useContext }) => {
+            console.log('stream is', useContext());
+            return _;
+          },
+        ),
     );
 
-  console.log(await app(
-    next('/home/cawfree/Development', '/home/cawfree/Development/'),
-  ));
+  console.log(await app());
+
+//  const app = werbos()
+//    .use(
+//      // XXX: Needs a context of execution can inform others (non-static)
+//      stream()
+//        .ctx('stream')
+//        .use(files(), files()),
+//    );
+//
+//  console.log(await app(
+//    next('/home/cawfree/Development', '/home/cawfree/Development/'),
+//  ));
 
 
   //const app = werbos()

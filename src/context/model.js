@@ -1,6 +1,7 @@
 import { Map } from "immutable";
 
 import { id as Base } from "./defs/base";
+import { id as Stream } from "./defs/stream";
 
 export const baseContext = () => ({ useGlobal }) => {
   const { getState } = useGlobal();
@@ -8,6 +9,9 @@ export const baseContext = () => ({ useGlobal }) => {
   return context.get(Base);
 };
 
-export const Context = Object.freeze({ Base });
+export const Context = Object.freeze({
+  Base,
+  Stream,
+});
 
 export default Map();
