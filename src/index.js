@@ -7,7 +7,9 @@ import createStore from "./createStore";
 import createVariant from "./createVariant";
 
 import { initialMeta } from "./meta";
+import { baseContext } from "./context";
 
+export { Context } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
 export { sequential } from "./network";
@@ -34,4 +36,5 @@ export const files = () => [
 ];
 
 export default () => compose(createStore, createReceiver, createVariant)
+  .ctx(baseContext())
   .all(pre(initialMeta()));

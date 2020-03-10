@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 
+import { reducer as context, build as contexts } from "./context";
 import { reducer as layer, build as layers } from "./layer";
 import { reducer as meta, build as metas } from "./meta";
 import { reducer as network, build as networks } from "./network";
@@ -16,6 +17,7 @@ import { reducer as variant, build as variants } from "./variant";
 export default () => {
   const store = createStore(
     combineReducers({
+      context,
       layer,
       meta,
       network,
@@ -33,6 +35,7 @@ export default () => {
 
   const { dispatch } = store;
 
+  dispatch(contexts());
   dispatch(layers());
   dispatch(metas());
   dispatch(receivers());
