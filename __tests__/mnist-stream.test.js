@@ -13,7 +13,7 @@ it("should be capable of incrementally streaming mnist data", async () => {
       [
         // TODO: Eventually, we'll need to abstract this kind of functionality.
         ['(String)', stream()
-          .use(files()),
+          .use(files('/home/cawfree/Development/mnist-dataset/public')),
         ],
         ['*', noop()],
       ],

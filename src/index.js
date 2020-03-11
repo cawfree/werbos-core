@@ -32,13 +32,24 @@ export const https = () => [
   ['[String]', urls => Promise.all(urls.map(url => jsonByUrl(url)))],
 ];
 
-export const files = () => contextAware(
+export const files = (...args) => contextAware(
   {
     [Base]: () => [
       ['String', jsonByPath],
       ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
     ],
-    [Stream]: () => () => 'i am a stream handling file',
+    [Stream]: () => {
+      if (args.length !== 1) {
+        throw new Error(`A call to files() within a stream must be initialized using a single parent directory to sample file data from.`);
+      }
+      const [dir] = args;
+      if (!fs.existsSync(dir)) {
+        throw new Error(`The resource ${dir} does not exist.`);
+      } else if (!fs.lstatSync(dir).isDirectory()) {
+        throw new Error(`The specified resource is not a valid directory.`);
+      }
+      return () => 'i am a stream handling file';
+    },
   },
 );
 
