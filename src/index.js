@@ -7,7 +7,9 @@ import createStore from "./createStore";
 import createVariant from "./createVariant";
 
 import { initialMeta } from "./meta";
-import { baseContext } from "./context";
+import { baseContext, contextAware, Context } from "./context";
+
+const { Base, Stream } = Context;
 
 export { Context } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
@@ -30,10 +32,15 @@ export const https = () => [
   ['[String]', urls => Promise.all(urls.map(url => jsonByUrl(url)))],
 ];
 
-export const files = () => [
-  ['String', jsonByPath],
-  ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
-];
+export const files = () => contextAware(
+  {
+    [Base]: () => [
+      ['String', jsonByPath],
+      ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
+    ],
+    [Stream]: () => () => 'i am a stream handling file',
+  },
+);
 
 export default () => compose(createStore, createReceiver, createVariant)
   .ctx(baseContext())
