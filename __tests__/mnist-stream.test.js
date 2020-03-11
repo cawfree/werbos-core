@@ -1,64 +1,23 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
+import { noop } from "rippleware";
 import werbos, { stream, next, files } from "../src";
 
 it("should be capable of incrementally streaming mnist data", async () => {
 
   const app = werbos()
-    .use((_, { useContext }) => {
-      console.log('base is',useContext());
-      return _;
-    })
     .use(
-      stream()
-        .use(
-          (_, { useContext }) => {
-            console.log('stream is', useContext());
-            return _;
-          },
-        ),
+      [
+        // TODO: Eventually, we'll need to abstract this kind of functionality.
+        ['(String)', stream()
+          .use(() => true),
+        ],
+        ['*', noop()],
+      ],
     );
-
-  console.log(await app());
-
-//  const app = werbos()
-//    .use(
-//      // XXX: Needs a context of execution can inform others (non-static)
-//      stream()
-//        .ctx('stream')
-//        .use(files(), files()),
-//    );
-//
-//  console.log(await app(
-//    next('/home/cawfree/Development', '/home/cawfree/Development/'),
-//  ));
-
-
-  //const app = werbos()
-  //  .sep(
-  //    // define whether we want to skip?
-  //    stream()
-  //      // XXX: Capable of parsing the message.
-  //      .use(files(), files()),
-  //  )
-  //  .use(
-  //    threshold(),oneHot(),
-  //  );
-
-  //// TODO: Seeded execution perhaps?
-  //// XXX:  No way to one-hot. Unless the data is just handed to us, perhaps.
-  //await app(next('/home/cawfree/Development/mnist-png', '/home/cawfree/Development/mnist-png'));
-  //await app(next());
-  //await app(next());
-  //await app(next());
-
-  //  await app(next());
-  //  await app(next());
-  //  await app(next());
-  //  await app(next());
-  //  await app(end());
-
-  // XXX: Define initial properties.
-  //console.log(await app(next({ limit: 10 })));
+  
+  console.log(await app(next()));
+  console.log(await app(4));
+  // await app(next(['/home/cawfree/Development'], ['/home/cawfree/Development/']));
 });
