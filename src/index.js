@@ -14,7 +14,7 @@ import { Shape } from "./shape";
 
 const { Base, Stream } = Context;
 
-export { Context } from "./context";
+export { Context, contextAware } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
 export { Shape } from "./shape";
