@@ -36,7 +36,7 @@ it("should be capable of incrementally streaming mnist data", async () => {
       [
         // TODO: Eventually, we'll need to abstract this kind of functionality.
         // TODO: A nice, configurable way to access the stream.
-        ['*', stream()
+        [routeByShape(Shape.Next), stream()
           .all(
             files(testDirectory),
             files(testDirectory),

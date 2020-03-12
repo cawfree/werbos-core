@@ -1,5 +1,6 @@
 import axios from "axios";
 import fs from "fs";
+import { sep } from "path";
 import { typeCheck } from "type-check";
 import compose, { pre } from "rippleware";
 
@@ -7,8 +8,9 @@ import createReceiver from "./createReceiver";
 import createStore from "./createStore";
 import createVariant from "./createVariant";
 
-import { initialMeta } from "./meta";
 import { baseContext, contextAware, Context } from "./context";
+import { initialMeta } from "./meta";
+import { Shape } from "./shape";
 
 const { Base, Stream } = Context;
 
@@ -45,7 +47,7 @@ export const files = (...args) => contextAware(
       ['String', jsonByPath],
       ['[String]', paths => Promise.all(paths.map(path => jsonByPath(path)))],
     ],
-    [Stream]: () => {
+    [Stream]: ({ useState }) => {
       if (args.length !== 1) {
         throw new Error(`A call to files() within a stream must be initialized using a single parent directory to sample file data from.`);
       }
@@ -55,8 +57,21 @@ export const files = (...args) => contextAware(
       } else if (!fs.lstatSync(dir).isDirectory()) {
         throw new Error(`The specified resource is not a valid directory.`);
       }
-      return (action, { ...extraHooks }) => {
-        return Math.random();
+      return ([id, action], { useState, ...extraHooks }) => {
+        const [allFiles] = useState(() => [...fs.readdirSync(dir)]);
+        const [count, setCount] = useState(() => 0);
+        const { limit } = action;
+        const nextBatch = allFiles.slice(count, count + limit);
+
+        // TODO: What happens when limit is exceeded?
+        setCount(count + limit);
+
+        return Promise
+          .all(
+            nextBatch.map(
+              path => jsonByPath(`${dir}${sep}${path}`),
+            ),
+          );
       };
     },
   },
