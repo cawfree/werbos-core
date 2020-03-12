@@ -18,8 +18,9 @@ it("should be capable of reuters newswire classification", async () => {
   const data = await getData("/home/cawfree/Development/reuters-dataset/public/reuters-dataset.json");
 
   const app = werbos()
-    .sep(/$.articles/)
-    .mix(
+    .use(/$.articles/)
+    .use(articles => [].concat(...articles))
+    .use(
       articles => articles
         .filter(
           ({ text: { body }, topics }) =>
@@ -30,8 +31,8 @@ it("should be capable of reuters newswire classification", async () => {
         )
         .map(({ text: { body }, topics }) => ({ topic: topics[0], body })),
     )
-    .sep([[/$.*.*.body/], [/$.*.*.topic/]])
-    .mix(oneHot({ max: 10000 }), oneHot({ max: 46 }))
+    .all([[/$.*.body/], [/$.*.topic/]])
+    .mix(oneHot({ max: 1000 }), oneHot({ max: 46 }))
     .use(
       sequential()
         .use(dense({ units: 64 }))

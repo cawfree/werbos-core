@@ -34,23 +34,22 @@ it("should be capable of incrementally streaming data", async () => {
   const app = werbos()
     .all(
       [
-        // TODO: Eventually, we'll need to abstract this kind of functionality.
-        // TODO: A nice, configurable way to access the stream.
         [routeByShape(Shape.Next), stream()
           .all(
             files(testDirectory),
             files(testDirectory),
-          )
-          // XXX: need this to split as expcted
-          .use(e => e, e => e),
+          ),
         ],
         ['*', noop()],
       ],
     )
+    .mix(threshold(), oneHot())
     .use(
-      console.log,
-      console.log,
-    );
+      sequential()
+        .use(dense())
+        .use(dense()),
+    )
+    .use(train());
 
-  await app(next());
+  await app(next(50));
 });
