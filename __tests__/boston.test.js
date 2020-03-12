@@ -22,7 +22,7 @@ it("should be capable of calculating regression using the boston dataset", async
 
   const app = werbos()
     .use(justOnce(https()))
-    .sep(
+    .all(
       [
         [
           /$.*.crim/,

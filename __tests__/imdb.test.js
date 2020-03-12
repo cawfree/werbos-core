@@ -14,7 +14,7 @@ jest.setTimeout(24 * 60 * 60 * 1000);
 it("should be capable of calculating imdb review sentiment", async () => {
   const app = werbos()
     .use(justOnce(https()))
-    .sep(
+    .all(
       [
         [/$.*.t/],
         [/$.*.s/],
