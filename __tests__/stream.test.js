@@ -27,12 +27,12 @@ const createTestDirectory = (n = 1000) => {
   );
 };
 
-it("should be capable of incrementally streaming mnist data", async () => {
+it("should be capable of incrementally streaming data", async () => {
 
   createTestDirectory();
 
   const app = werbos()
-    .use(
+    .all(
       [
         // TODO: Eventually, we'll need to abstract this kind of functionality.
         // TODO: A nice, configurable way to access the stream.
@@ -40,11 +40,17 @@ it("should be capable of incrementally streaming mnist data", async () => {
           .all(
             files(testDirectory),
             files(testDirectory),
-          )],
+          )
+          // XXX: need this to split as expcted
+          .use(e => e, e => e),
+        ],
         ['*', noop()],
       ],
+    )
+    .use(
+      console.log,
+      console.log,
     );
-  console.log(await app(next(2)));
-  console.log(await app(next()));
-  //console.log(await app(2));
+
+  await app(next());
 });
