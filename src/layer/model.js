@@ -6,7 +6,7 @@ import { id as layerMeta } from "../meta/defs/layer";
 import { id as tensorMeta } from "../meta/defs/tensor";
 import { id as stimuliMeta } from "../meta/defs/stimuli";
 
-import { model as modelShape } from "../shape";
+import { Shape } from "../shape";
 import { readOnly } from "../meta";
 
 
@@ -97,7 +97,7 @@ export const useLayer = (id, withOptions) => pre(
     LayerDefinition.layerPropTypes = Object.freeze({ id });
 
     return [
-      [modelShape(state), LayerDefinition],
+      [Shape.Model(state), LayerDefinition],
     ];
   },
 );

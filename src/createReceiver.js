@@ -1,6 +1,5 @@
 import { typeCheck } from "type-check";
 
-import { model } from "./shape";
 import { shouldReceive } from "./receiver";
 
 export default ({ useGlobal, useKey }, params) => {

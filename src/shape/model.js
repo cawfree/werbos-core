@@ -1,12 +1,14 @@
 import { Map } from "immutable";
 
 import modelShape from "./defs/model";
+import nextShape from "./defs/next";
 import stimuliShape from "./defs/stimuli";
 import tensorShape from "./defs/tensor";
 
 const [modelId] = modelShape;
 const [stimuliId] = stimuliShape;
 const [tensorId] = tensorShape;
+const [nextId] = nextShape;
 
 const getShape = (state, id) => {
   const { shape } = state;
@@ -18,8 +20,16 @@ const getShape = (state, id) => {
   );
 };
 
-export const model = state => getShape(state, modelId);
-export const stimuli = state => getShape(state, stimuliId);
-export const tensor = state => getShape(state, tensorId);
+export const Model = state => getShape(state, modelId);
+export const Next = state => getShape(state, nextId);
+export const Stimuli = state => getShape(state, stimuliId);
+export const Tensor = state => getShape(state, tensorId);
+
+export const Shape = Object.freeze({
+  Model,
+  Next,
+  Stimuli,
+  Tensor,
+});
 
 export default Map();

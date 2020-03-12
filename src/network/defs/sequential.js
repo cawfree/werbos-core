@@ -2,7 +2,7 @@ import compose, { pre } from "rippleware";
 import { sequential } from "@tensorflow/tfjs";
 
 import { id as stimuliMeta } from "../../meta/defs/stimuli";
-import { stimuli } from "../../shape";
+import { Shape } from "../../shape";
 
 const createSequential = () => (stimuli, { useGlobal, useMeta }) => {
   //  // TODO: Should add some sanity checking about this.
@@ -20,7 +20,7 @@ export default () => compose()
     ({ useGlobal }) => {
       const { getState } = useGlobal();
       return [
-        [stimuli(getState()), createSequential()],
+        [Shape.Stimuli(getState()), createSequential()],
       ];
     },
   );

@@ -3,7 +3,7 @@ import { model as clone } from "tfjs-clone";
 import { pre } from "rippleware";
 
 import { loss, rectify } from "../model";
-import { model } from "../../shape";
+import { Shape } from "../../shape";
 
 import { id as tensorMeta } from "../../meta/defs/tensor";
 import { id as stimuliMeta } from "../../meta/defs/stimuli";
@@ -101,7 +101,7 @@ export default (options = defaultOptions) => pre(
   ({ useGlobal }) => {
     const { getState } = useGlobal();
     return [
-      [model(getState()), kfold(options)],
+      [Shape.Model(getState()), kfold(options)],
     ];
   },
 );

@@ -20,6 +20,7 @@ const receiveShape = shape => (dispatch, getState) => {
 
 export const build = () => (dispatch, getState) => {
   dispatch(receiveShape(require("./defs/model.json")));
+  dispatch(receiveShape(require("./defs/next.json")));
   dispatch(receiveShape(require("./defs/stimuli.json")));
   dispatch(receiveShape(require("./defs/tensor.json")));
 };

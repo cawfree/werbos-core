@@ -1,7 +1,7 @@
 import { train } from "@tensorflow/tfjs";
 import { pre } from "rippleware";
 
-import { model } from "../../shape";
+import { Shape } from "../../shape";
 import { loss, rectify } from "../model";
 
 import { id as tensorMeta } from "../../meta/defs/tensor";
@@ -42,7 +42,7 @@ export default (options = defaultOptions) => pre(
   ({ useGlobal }) => {
     const { getState } = useGlobal();
     return [
-      [model(getState()), shouldTrain(options)],
+      [Shape.Model(getState()), shouldTrain(options)],
     ];
   },
 );

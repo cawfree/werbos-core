@@ -11,5 +11,8 @@ const streamContext = () => ({ useGlobal }) => {
   return context.get(Stream);
 };
 
-export default () => compose()
-  .ctx(streamContext());
+const defaultOptions = Object.freeze({});
+
+// TODO: Implement shared properties.
+export default (options = defaultOptions) => compose()
+  .ctx(streamContext({ ...defaultOptions, ...options }));

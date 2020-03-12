@@ -1,5 +1,6 @@
 import axios from "axios";
 import fs from "fs";
+import { typeCheck } from "type-check";
 import compose, { pre } from "rippleware";
 
 import createReceiver from "./createReceiver";
@@ -14,12 +15,18 @@ const { Base, Stream } = Context;
 export { Context } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
+export { Shape } from "./shape";
 export { sequential } from "./network";
 export { stream, next } from "./stream";
 export { train, kfold } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";
 export { shuffle } from "./tensor";
 export { Variant } from "./variant";
+
+export const routeByShape = getShapeImpl => (input, { useGlobal }) => {
+  const { getState } = useGlobal();
+  return typeCheck(getShapeImpl(getState()), input);
+};
 
 const jsonByUrl = url => axios({ method: "get", url })
   .then(({ data }) => data);
@@ -48,11 +55,13 @@ export const files = (...args) => contextAware(
       } else if (!fs.lstatSync(dir).isDirectory()) {
         throw new Error(`The specified resource is not a valid directory.`);
       }
-      return () => 'i am a stream handling file';
+      return (action, { ...extraHooks }) => {
+        return Math.random();
+      };
     },
   },
 );
 
 export default () => compose(createStore, createReceiver, createVariant)
   .ctx(baseContext())
-  .all(pre(initialMeta()));
+  .use(pre(initialMeta()));
