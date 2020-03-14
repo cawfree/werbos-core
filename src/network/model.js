@@ -36,10 +36,8 @@ export const useNetwork = (id, withOptions) => compose()
               const { useMeta } = extraHooks;
               const [a, b] = useMeta();
               const [sa, sb] = stimuli;
-              useMeta(
-                [{ ...a, [stimuliMeta]: sa }, { ...b, [stimuliMeta]: sb }],
-              );
-              return createNetwork(
+              useMeta([{ ...a, [stimuliMeta]: sa }, { ...b, [stimuliMeta]: sb }]);
+              return createNetwork(withOptions)(
                 stimuli,
                 {
                   ...extraHooks,

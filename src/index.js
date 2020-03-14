@@ -79,4 +79,4 @@ export const files = (...args) => contextAware(
 
 export default () => compose(createStore, createReceiver, createVariant)
   .ctx(baseContext())
-  .use(pre(initialMeta()));
+  .all(pre(initialMeta()));

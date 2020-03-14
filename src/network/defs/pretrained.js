@@ -20,11 +20,7 @@ const loadGraphModelFromUrl = (url) => {
   );
 };
 
-const parseConstructor = (...args) => {
-  if (args.length !== 1) {
-    throw new Error(`Expected String, encountered ${args}.`);
-  }
-  const [maybePathOrUrl] = args;
+const parseOptions = (maybePathOrUrl) => {
   if (!typeCheck("String", maybePathOrUrl)) {
     throw new Error(`Expected String, encountered ${maybePathOrUrl}.`);
   } else if (!isUrl(maybePathOrUrl)) {
@@ -34,26 +30,44 @@ const parseConstructor = (...args) => {
 };
 
 // TODO: pretrained can be either a layer or a network, need to represent this
-export default (...args) => contextAware(
-  {
-    [Base]: () => (_, { useState }) => {
-      const [cached, setCached] = useState(null);
-      return Promise.resolve(parseConstructor(...args))
-        .then(
-          (path) => {
-            if (!cached) {
-              const path = parseConstructor(...args);
-              if (isUrl(path)) {
-                return loadGraphModelFromUrl(path)
-                  .then(model => setCached(model) || model);
-              }
-            }
-            return cached;
-          },
-        );
-    },
-    //[Network]: () => {
-    //  // load layers model
-    //},
-  },
-);
+// XXX:  At this stage, we're basically forcing the context as a network. We need
+//       a higher-level function capable of reflecting this.
+export default options => (stimuli, { useState }) => {
+  const [cached, setCached] = useState(null);
+  return Promise.resolve(parseOptions(options))
+    .then(
+      (path) => {
+        if (!cached) {
+          if (isUrl(path)) {
+            return loadGraphModelFromUrl(path)
+              .then(model => setCached(model) || model);
+          }
+        }
+        return cached;
+      },
+    ); 
+};
+
+//contextAware(
+//  {
+//    [Base]: () => (_, { useState }) => {
+//      const [cached, setCached] = useState(null);
+//      return Promise.resolve(parseConstructor(...args))
+//        .then(
+//          (path) => {
+//            if (!cached) {
+//              const path = parseConstructor(...args);
+//              if (isUrl(path)) {
+//                return loadGraphModelFromUrl(path)
+//                  .then(model => setCached(model) || model);
+//              }
+//            }
+//            return cached;
+//          },
+//        );
+//    },
+//    //[Network]: () => {
+//    //  // load layers model
+//    //},
+//  },
+//);

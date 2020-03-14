@@ -6,7 +6,7 @@ import { Context } from "../../context";
 export const id = "8MuyezD8KRVor4QNSrNZw";
 
 //equivalent to: export default () => (stimuli, { useGlobal, useMeta }) => sequential();
-export default () => sequential();
+export default withOptions => () => sequential();
 
 //export default () => (stimuli, { useGlobal, useMeta }) => {
 //  //  // TODO: Should add some sanity checking about this.
