@@ -18,7 +18,7 @@ export { Context, contextAware } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
 export { Shape } from "./shape";
-export { sequential } from "./network";
+export { sequential, pretrained } from "./network";
 export { stream, next } from "./stream";
 export { train, kfold } from "./train";
 export { oneHot, normalize, scalar, threshold } from "./transform";

@@ -47,10 +47,8 @@ const flattenBoundary = (state, computeKeyFor, ...stages) => {
       const { id: lastId } = lastExtras;
       // XXX: Apply default pooling between successive convolution layers.
       if (id === conv2dId && lastId === conv2dId) {
-        console.log('insert pooling!');
         return insertPoolingAt(stages, i);
       } else if (id === denseId && lastId === conv2dId) {
-        console.log('insert flatten!');
         return insertFlattenAt(stages, i);
       }
     }

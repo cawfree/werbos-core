@@ -2,12 +2,14 @@ import { Map } from "immutable";
 import { pre, noop } from "rippleware";
 
 import { id as Base } from "./defs/base";
+import { id as Network } from "./defs/network";
 import { id as Stream } from "./defs/stream";
 
 const defaultContextReceivers = Object.freeze({});
 
 export const Context = Object.freeze({
   Base,
+  Network,
   Stream,
 });
 
