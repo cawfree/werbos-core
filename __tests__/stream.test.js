@@ -39,18 +39,12 @@ it("should be capable of incrementally streaming data", async () => {
             files(testDirectory),
             files(testDirectory),
           )
-          .use(/$.*.x/, /$.*.y/),
         ],
         ['*', noop()],
       ],
     )
-    //.mix(scalar(), scalar())
-    //.use(
-    //  sequential()
-    //    .use(dense())
-    //    .use(dense()),
-    //)
-    //.use(train());
-
-  console.log(await app(next(2)));
+    .use(/$.*.x/, /$.*.y/);
+  
+  await app(next(2));
+  await app([{x:0, y:1}, {x:1, y:2}], [{x:0, y:1}, {x:1, y:2}]);
 });
