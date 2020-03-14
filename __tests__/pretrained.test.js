@@ -12,7 +12,7 @@ it("should load a graph model from tfhub", async () => {
     .use(files(), files())
     .mix(threshold(), oneHot())
     .use(pretrained('https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2'));
-    //.use(train());
+    //.use(fitOrPredict());
 
   const testResults = await app(
     "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
