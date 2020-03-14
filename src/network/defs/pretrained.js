@@ -47,27 +47,3 @@ export default options => (stimuli, { useState }) => {
       },
     ); 
 };
-
-//contextAware(
-//  {
-//    [Base]: () => (_, { useState }) => {
-//      const [cached, setCached] = useState(null);
-//      return Promise.resolve(parseConstructor(...args))
-//        .then(
-//          (path) => {
-//            if (!cached) {
-//              const path = parseConstructor(...args);
-//              if (isUrl(path)) {
-//                return loadGraphModelFromUrl(path)
-//                  .then(model => setCached(model) || model);
-//              }
-//            }
-//            return cached;
-//          },
-//        );
-//    },
-//    //[Network]: () => {
-//    //  // load layers model
-//    //},
-//  },
-//);

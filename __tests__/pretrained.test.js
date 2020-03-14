@@ -7,6 +7,8 @@ jest.setTimeout(24 * 60 * 60 * 1000);
 
 it("should load a graph model from tensorhub", async () => {
 
+  // needs (224 * 224 * rgb)
+
   // const modelUrl =
   //      'https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2';
   // const model = await tf.loadGraphModel(modelUrl, {fromTFHub: true});
@@ -16,10 +18,7 @@ it("should load a graph model from tensorhub", async () => {
   const app = werbos()
     .use(files(), files())
     .mix(threshold(), oneHot())
-    .use(
-      //pretrained("https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v1_025_224/classification/1/default/1"),
-      pretrained('https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2'),
-    );
+    .use(pretrained('https://tfhub.dev/google/imagenet/mobilenet_v2_140_224/classification/2'));
 
   const testResults = await app(
     "/home/cawfree/Development/mnist-dataset/public/train-images-idx3-ubyte.json",
