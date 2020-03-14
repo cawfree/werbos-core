@@ -6,6 +6,8 @@ import compose, { pre } from "rippleware";
 
 import { contextAware, Context } from "../../context";
 
+export const id = "H3M49kTaJTfMo0atewWmh";
+
 const { Base, Network } = Context;
 
 const loadGraphModelFromUrl = (url) => {
