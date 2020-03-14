@@ -5,7 +5,6 @@ import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
 import { typeCheck } from "type-check";
-import { justOnce } from "rippleware";
 
 import werbos, { files, oneHot, sequential, dense, train } from "../src";
 

@@ -5,7 +5,7 @@
 import "@babel/polyfill";
 import "@tensorflow/tfjs-node";
 
-import { justOnce } from "rippleware";
+//import { justOnce } from "rippleware";
 
 import werbos, { https, oneHot, sequential, dense, dropout, train } from "../src";
 
@@ -13,7 +13,7 @@ jest.setTimeout(24 * 60 * 60 * 1000);
 
 it("should be capable of calculating imdb review sentiment", async () => {
   const app = werbos()
-    .use(justOnce(https()))
+    .use(https())
     .all(
       [
         [/$.*.t/],
