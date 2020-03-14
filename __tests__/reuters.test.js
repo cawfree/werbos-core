@@ -40,12 +40,10 @@ it("should be capable of reuters newswire classification", async () => {
     )
     .use(train());
 
-  const x = await app(...data);
+  await app(...data);
 
-  console.log(x);
+  //console.log(await app(...data));
 
-  console.log(await app(...data));
-
-  expect(true)
-    .toBeTruthy();
+  //expect(true)
+  //  .toBeTruthy();
 });
