@@ -8,20 +8,11 @@ import createReceiver from "./createReceiver";
 import createStore from "./createStore";
 import createVariant from "./createVariant";
 
-import { assertEvents } from "./event";
 import { baseContext, contextAware, Context } from "./context";
 import { initialMeta } from "./meta";
 import { Shape } from "./shape";
 
 const { Base, Stream } = Context;
-
-//// TODO: Requires re-activation.
-//export {
-//  predict,
-//  train,
-//  Predicting,
-//  Training,
-//} from "./event";
 
 export { Context, contextAware } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
@@ -91,7 +82,4 @@ export const files = (...args) => contextAware(
 
 export default () => compose(createStore, createReceiver, createVariant)
   .ctx(baseContext())
-  .all(pre(initialMeta()))
-  // XXX: Prepare the initialMeta with the event context.
-  // TODO: Needs reactivation
-  //.all(pre(assertEvents()));
+  .all(pre(initialMeta()));
