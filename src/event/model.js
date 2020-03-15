@@ -26,13 +26,10 @@ const useEvent = (id, ...args) => [id, [...args]];
 export const predict = (...args) => useEvent(predictId, ...args);
 export const train = (...args) => useEvent(trainId, ...args);
 
-const createAssertEventThunk = id => (...args) => {
-  console.log(args);
-//_, { useMeta }
-  return true;
-  //const { [eventMeta]: { id: currentEventId } } = useMeta();
-  //// TODO: This isn't going to work.
-  //return currentEventId === trainId;
+const createAssertEventThunk = id => (_, { useMeta }) => {
+  const { [eventMeta]: { id: currentEventId } } = useMeta();
+  // TODO: This isn't going to work.
+  return currentEventId === id;
 }
 
 // XXX:  Conditional execution hooks.
