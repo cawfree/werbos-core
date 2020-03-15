@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import { reducer as context, build as contexts } from "./context";
+import { reducer as event, build as events } from "./event";
 import { reducer as layer, build as layers } from "./layer";
 import { reducer as meta, build as metas } from "./meta";
 import { reducer as network, build as networks } from "./network";
@@ -18,6 +19,7 @@ export default () => {
   const store = createStore(
     combineReducers({
       context,
+      event,
       layer,
       meta,
       network,
@@ -36,6 +38,7 @@ export default () => {
   const { dispatch } = store;
 
   dispatch(contexts());
+  dispatch(events());
   dispatch(layers());
   dispatch(metas());
   dispatch(receivers());

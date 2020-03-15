@@ -1,5 +1,6 @@
 import { typeCheck } from "type-check";
 
+import { id as eventMeta } from "./defs/event";
 import { id as layerMeta } from "./defs/layer";
 import { id as stimuliMeta } from "./defs/stimuli";
 import { id as tensorMeta } from "./defs/tensor";
@@ -22,6 +23,7 @@ const receiveMeta = (id, data = {}) => (dispatch, getState) => {
 };
 
 export const build = () => (dispatch, getState) => {
+  dispatch(receiveMeta(eventMeta));
   dispatch(receiveMeta(layerMeta, []));
   dispatch(receiveMeta(stimuliMeta, []));
   dispatch(receiveMeta(tensorMeta));
