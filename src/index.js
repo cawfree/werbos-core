@@ -8,19 +8,24 @@ import createReceiver from "./createReceiver";
 import createStore from "./createStore";
 import createVariant from "./createVariant";
 
+import { assertEvents } from "./event";
 import { baseContext, contextAware, Context } from "./context";
 import { initialMeta } from "./meta";
 import { Shape } from "./shape";
 
 const { Base, Stream } = Context;
 
+export { predict, train, Predicting, Training } from "./event";
 export { Context, contextAware } from "./context";
 export { dense, dropout, conv, pooling, flatten } from "./layer";
 export { Meta } from "./meta";
 export { Shape } from "./shape";
 export { sequential, pretrained } from "./network";
 export { stream, next } from "./stream";
-export { train, kfold } from "./train";
+
+// TODO: How to train?
+//export { train, kfold } from "./train";
+
 export { oneHot, normalize, scalar, threshold } from "./transform";
 export { shuffle } from "./tensor";
 export { Variant } from "./variant";
@@ -79,4 +84,6 @@ export const files = (...args) => contextAware(
 
 export default () => compose(createStore, createReceiver, createVariant)
   .ctx(baseContext())
-  .all(pre(initialMeta()));
+  .all(pre(initialMeta()))
+  // XXX: Prepare the initialMeta with the event context.
+  .all(pre(assertEvents()));
